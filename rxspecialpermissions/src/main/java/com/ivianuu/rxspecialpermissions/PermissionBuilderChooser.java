@@ -29,7 +29,7 @@ import com.ivianuu.rxspecialpermissions.provider.NotificationPolicyAccessProvide
 import com.ivianuu.rxspecialpermissions.provider.PackageUsageStatsProviders;
 import com.ivianuu.rxspecialpermissions.provider.SystemOverlayProviders;
 import com.ivianuu.rxspecialpermissions.provider.VrListenerProviders;
-import com.ivianuu.rxspecialpermissions.provider.WriteSystemSettingsProviders;
+import com.ivianuu.rxspecialpermissions.provider.WriteSettingsProviders;
 
 /**
  * Permission builder chooser
@@ -149,11 +149,11 @@ public final class PermissionBuilderChooser {
     }
 
     /**
-     * Returns a builder with write system settings providers
+     * Returns a builder with write settings providers
      */
     @NonNull
-    public PermissionBuilder writeSystemSettings() {
-        WriteSystemSettingsProviders providers = new WriteSystemSettingsProviders();
+    public PermissionBuilder writeSettings() {
+        WriteSettingsProviders providers = new WriteSettingsProviders();
         return custom()
                 .grantedProvider(providers)
                 .intentProvider(providers);
