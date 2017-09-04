@@ -42,7 +42,7 @@ public final class SinglePermissionRequestBuilder extends BasePermissionRequestB
      * Sets the negative text
      */
     public SinglePermissionRequestBuilder positiveTextRes(@StringRes int positiveTextRes) {
-        return negativeText(activity.getString(positiveTextRes));
+        return positiveText(activity.getString(positiveTextRes));
     }
 
     /**
