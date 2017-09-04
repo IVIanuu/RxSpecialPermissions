@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 
+import com.ivianuu.rxspecialpermissions.R;
 import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroup;
 
 /**
@@ -76,6 +77,9 @@ public class PermissionGroupRequestBuilder extends BasePermissionRequestBuilder<
         }
         if (permissionGroup.getPermissions().isEmpty()) {
             throw new IllegalStateException("must contain at least 1 permissions");
+        }
+        if (title == null) {
+            title = activity.getString(R.string.default_permission_group_request_title);
         }
     }
 

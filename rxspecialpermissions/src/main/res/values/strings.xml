@@ -16,12 +16,14 @@
   -->
 
 <resources>
-
     <!-- Dialog buttons -->
     <string name="default_positive_btn_text">OK</string>
     <string name="default_negative_btn_text">Cancel</string>
 
     <!-- Accessibility -->
     <string name="default_accessibility_permission_title">Accessibility permission</string>
+
+    <!-- Permission group request -->
+    <string name="default_permission_group_request_title">Required Permissions</string>
 
 </resources>

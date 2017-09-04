@@ -22,6 +22,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 
+import com.ivianuu.rxspecialpermissions.R;
+
 import io.reactivex.Single;
 
 /**
@@ -69,7 +71,7 @@ abstract class BasePermissionRequestBuilder<T> {
             throw new IllegalStateException("missing activity");
         }
         if (negativeText == null) {
-            throw new IllegalStateException("missing negative text");
+            negativeText = activity.getString(R.string.default_negative_btn_text);
         }
 
         validate();
