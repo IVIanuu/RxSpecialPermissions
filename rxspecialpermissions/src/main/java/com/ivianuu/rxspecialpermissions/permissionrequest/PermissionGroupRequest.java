@@ -24,6 +24,7 @@ import com.ivianuu.rxmaterialdialogscommons.RxMaterialDialogsCommons;
 import com.ivianuu.rxmaterialdialogscommons.listmaterial.MaterialListDialogBuilder;
 import com.ivianuu.rxmaterialdialogscommons.listmaterial.MaterialListDialogEvent;
 import com.ivianuu.rxmaterialdialogscommons.listmaterial.MaterialListItem;
+import com.ivianuu.rxspecialpermissions.R;
 import com.ivianuu.rxspecialpermissions.permission.Permission;
 
 import io.reactivex.Single;
@@ -161,6 +162,7 @@ final class PermissionGroupRequest implements PermissionRequest {
                 .icon(permission.getIcon())
                 .tag(permission)
                 .backgroundColor(Color.TRANSPARENT)
+                .iconPaddingDp(6)
                 .build();
     }
 
