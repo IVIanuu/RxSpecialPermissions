@@ -17,13 +17,16 @@
 package com.ivianuu.rxspecialpermissions.permissionrequest;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ivianuu.rxmaterialdialogscommons.RxMaterialDialogsCommons;
-import com.ivianuu.rxmaterialdialogscommons.listmaterial.MaterialListDialogBuilder;
-import com.ivianuu.rxmaterialdialogscommons.listmaterial.MaterialListDialogEvent;
-import com.ivianuu.rxmaterialdialogscommons.listmaterial.MaterialListItem;
+import com.ivianuu.rxmaterialdialogscommons.listcustom.CustomListDialogBuilder;
+import com.ivianuu.rxmaterialdialogscommons.listcustom.CustomListDialogEvent;
+import com.ivianuu.rxmaterialdialogscommons.listcustom.CustomModelListItem;
 import com.ivianuu.rxspecialpermissions.R;
 import com.ivianuu.rxspecialpermissions.permission.Permission;
 
@@ -62,8 +65,8 @@ final class PermissionGroupRequest implements PermissionRequest {
                     // we have to request some permissions
 
                     // create dialog
-                    MaterialListDialogBuilder dialogBuilder
-                            = RxMaterialDialogsCommons.materialListDialog(requestBuilder.activity);
+                    CustomListDialogBuilder<PermissionListItem> dialogBuilder
+                            = RxMaterialDialogsCommons.customListDialog(requestBuilder.activity);
                     dialogBuilder.cancelable(requestBuilder.cancelable);
                     dialogBuilder.negativeText(requestBuilder.negativeText);
                     dialogBuilder.title(requestBuilder.title);
@@ -72,22 +75,20 @@ final class PermissionGroupRequest implements PermissionRequest {
                     // add permissions
                     for (Permission permission : requestBuilder.permissionGroup.getPermissions()) {
                         if (permission.granted()) continue; // ignore granted permissions
-                        dialogBuilder.addItem(permissionToListItem(permission));
+                        dialogBuilder.addItem(new PermissionListItem(permission));
                     }
 
                     final Disposable disposable = dialogBuilder.build()
-                            .map(new Function<MaterialListDialogEvent, MaterialListItem>() {
+                            .map(new Function<CustomListDialogEvent<PermissionListItem>, PermissionListItem>() {
                                 @Override
-                                public MaterialListItem apply(MaterialListDialogEvent materialListDialogEvent) throws Exception {
-                                    // get the item
-                                    return materialListDialogEvent.getItem();
+                                public PermissionListItem apply(CustomListDialogEvent<PermissionListItem> event) throws Exception {
+                                    return event.getItem();
                                 }
                             })
-                            .map(new Function<MaterialListItem, Permission>() {
+                            .map(new Function<PermissionListItem, Permission>() {
                                 @Override
-                                public Permission apply(MaterialListItem materialListItem) throws Exception {
-                                    // get the permission
-                                    return (Permission) materialListItem.getTag();
+                                public Permission apply(PermissionListItem item) throws Exception {
+                                    return item.getModel();
                                 }
                             })
                             .flatMapSingleElement(new Function<Permission, SingleSource<Boolean>>() {
@@ -155,17 +156,6 @@ final class PermissionGroupRequest implements PermissionRequest {
         });
     }
 
-    private MaterialListItem permissionToListItem(Permission permission) {
-        return new MaterialListItem.Builder(requestBuilder.activity)
-                .title(permission.getTitle())
-                .text(permission.getDescription())
-                .icon(permission.getIcon())
-                .tag(permission)
-                .backgroundColor(Color.TRANSPARENT)
-                .iconPaddingDp(6)
-                .build();
-    }
-
     private boolean granted() {
         for (Permission permission : requestBuilder.permissionGroup.getPermissions()) {
             if (!permission.granted()) {
@@ -176,4 +166,47 @@ final class PermissionGroupRequest implements PermissionRequest {
         return true;
     }
 
+    static class PermissionListItem extends CustomModelListItem<Permission, PermissionListItem.ViewHolder> {
+
+        PermissionListItem(@NonNull Permission permission) {
+            super(permission);
+        }
+
+        @Override
+        public int getLayoutRes() {
+            return R.layout.item_permission;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder createViewHolder(View view) {
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void bind(@NonNull ViewHolder holder) {
+            holder.icon.setImageDrawable(getModel().getIcon());
+            holder.title.setText(getModel().getTitle());
+            holder.description.setText(getModel().getDescription());
+        }
+
+        @Override
+        public void unbind(@NonNull ViewHolder holder) {
+            holder.icon.setImageDrawable(null);
+            holder.title.setText(null);
+            holder.description.setText(null);
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            private final ImageView icon;
+            private final TextView title;
+            private final TextView description;
+            ViewHolder(View itemView) {
+                super(itemView);
+                icon = itemView.findViewById(R.id.permission_icon);
+                title = itemView.findViewById(R.id.permission_title);
+                description = itemView.findViewById(R.id.permission_description);
+            }
+        }
+    }
 }

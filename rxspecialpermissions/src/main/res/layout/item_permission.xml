@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:focusable="true"
+    android:gravity="start|center_vertical"
+    android:minHeight="62dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingEnd="@dimen/md_dialog_frame_margin"
+    android:paddingLeft="@dimen/md_dialog_frame_margin"
+    android:paddingRight="@dimen/md_dialog_frame_margin"
+    android:paddingStart="@dimen/md_dialog_frame_margin"
+    tools:ignore="PrivateResource">
+
+    <ImageView
+        android:id="@+id/permission_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="8dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/permission_icon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/permission_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="18sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/permission_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            tools:text="Text" />
+
+    </LinearLayout>
+
+</RelativeLayout>
