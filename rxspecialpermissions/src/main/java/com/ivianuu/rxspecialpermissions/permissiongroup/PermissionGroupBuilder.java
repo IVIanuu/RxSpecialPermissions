@@ -31,7 +31,7 @@ public final class PermissionGroupBuilder {
 
     private final List<Permission> permissions = new ArrayList<>();
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public PermissionGroupBuilder() {
 
     }

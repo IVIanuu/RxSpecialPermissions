@@ -29,7 +29,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 /**
  * Write system settings providers
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class WriteSettingsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
     @Override
     public boolean granted(@NonNull Context context) {

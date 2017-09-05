@@ -29,7 +29,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 /**
  * System overlay providers
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class SystemOverlayProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
     @Override

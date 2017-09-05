@@ -29,7 +29,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 /**
  * Package usage stats providers
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class PackageUsageStatsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
     @Override
     public boolean granted(@NonNull Context context) {

@@ -37,7 +37,7 @@ abstract class BasePermissionRequestBuilder<T> {
 
     String negativeText;
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     BasePermissionRequestBuilder(@NonNull Activity activity) {
         this.activity = activity;
     }

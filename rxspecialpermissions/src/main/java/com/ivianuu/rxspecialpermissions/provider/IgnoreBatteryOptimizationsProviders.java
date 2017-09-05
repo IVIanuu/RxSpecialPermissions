@@ -30,7 +30,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 /**
  * Ignore battery
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class IgnoreBatteryOptimizationsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
     @Override
     public boolean granted(@NonNull Context context) {

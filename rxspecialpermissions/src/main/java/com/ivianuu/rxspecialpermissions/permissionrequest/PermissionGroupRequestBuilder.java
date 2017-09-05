@@ -34,7 +34,7 @@ public class PermissionGroupRequestBuilder extends BasePermissionRequestBuilder<
     String title;
     String content;
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public PermissionGroupRequestBuilder(@NonNull Activity activity, @NonNull PermissionGroup permissionGroup) {
         super(activity);
         this.permissionGroup = permissionGroup;

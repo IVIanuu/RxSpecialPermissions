@@ -37,7 +37,7 @@ public final class PermissionBuilder {
     RealPermission.GrantedProvider grantedProvider;
     RealPermission.IntentProvider intentProvider;
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public PermissionBuilder(@NonNull Context context) {
         this.context = context.getApplicationContext();
     }

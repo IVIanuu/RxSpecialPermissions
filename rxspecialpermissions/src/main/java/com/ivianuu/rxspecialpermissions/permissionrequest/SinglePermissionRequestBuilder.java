@@ -33,7 +33,7 @@ public final class SinglePermissionRequestBuilder extends BasePermissionRequestB
 
     String positiveText;
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public SinglePermissionRequestBuilder(@NonNull Activity activity, @NonNull Permission permission) {
         super(activity);
         this.permission = permission;
