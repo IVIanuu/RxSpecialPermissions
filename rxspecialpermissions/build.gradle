@@ -23,8 +23,8 @@ dependencies {
     api "io.reactivex.rxjava2:rxjava:2.1.2"
 
     // RxMaterialDialogs
-    api 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs:d34617b2a3'
-    api 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs-commons:d34617b2a3'
+    api 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs:25a88eaf16'
+    api 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs-commons:25a88eaf16'
 }
 
 // build a jar with source files
