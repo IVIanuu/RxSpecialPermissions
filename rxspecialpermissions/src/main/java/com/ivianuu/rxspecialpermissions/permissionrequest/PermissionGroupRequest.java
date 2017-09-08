@@ -23,10 +23,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ivianuu.rxmaterialdialogscommons.RxMaterialDialogsCommons;
-import com.ivianuu.rxmaterialdialogscommons.listcustom.CustomListDialogBuilder;
-import com.ivianuu.rxmaterialdialogscommons.listcustom.CustomListDialogEvent;
-import com.ivianuu.rxmaterialdialogscommons.listcustom.CustomModelListItem;
+import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
+import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogBuilder;
+
+import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogEvent;
+import com.ivianuu.rxmaterialdialogs.listcustom.CustomModelListItem;
 import com.ivianuu.rxspecialpermissions.R;
 import com.ivianuu.rxspecialpermissions.permission.Permission;
 
@@ -66,7 +67,7 @@ final class PermissionGroupRequest implements PermissionRequest {
 
                     // create dialog
                     CustomListDialogBuilder<PermissionListItem> dialogBuilder
-                            = RxMaterialDialogsCommons.customListDialog(requestBuilder.activity);
+                            = RxMaterialDialogs.customListDialog(requestBuilder.activity);
                     dialogBuilder.cancelable(requestBuilder.cancelable);
                     dialogBuilder.negativeText(requestBuilder.negativeText);
                     dialogBuilder.title(requestBuilder.title);
