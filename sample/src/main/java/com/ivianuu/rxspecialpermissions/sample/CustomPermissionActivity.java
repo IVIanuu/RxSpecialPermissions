@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
-import android.widget.CompoundButton;
 
 /**
  * @author Manuel Wrage (IVIanuu)
@@ -36,12 +35,7 @@ public class CustomPermissionActivity extends Activity {
 
         switchCompat.setChecked(Util.hasCustomPermission);
 
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Util.hasCustomPermission = b;
-            }
-        });
+        switchCompat.setOnCheckedChangeListener((__, b) -> Util.hasCustomPermission = b);
     }
 
 }

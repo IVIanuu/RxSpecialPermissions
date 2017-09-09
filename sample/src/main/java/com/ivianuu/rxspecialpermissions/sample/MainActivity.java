@@ -1,21 +1,17 @@
 package com.ivianuu.rxspecialpermissions.sample;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
 import com.ivianuu.rxspecialpermissions.permission.Permission;
-import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroup;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,20 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
         Permission customPermission = RxSpecialPermissions.permissionBuilder(this)
                 .custom()
-                .grantedProvider(new RealPermission.GrantedProvider() {
-                    @Override
-                    public boolean granted(@NonNull Context context) {
-                        return Util.hasCustomPermission();
-                    }
-                })
-                .intentProvider(new RealPermission.IntentProvider() {
-                    @NonNull
-                    @Override
-                    public Intent getIntent(@NonNull Context context) {
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName(context, CustomPermissionActivity.class));
-                        return intent;
-                    }
+                .grantedProvider(context -> Util.hasCustomPermission())
+                .intentProvider(context -> {
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(context, CustomPermissionActivity.class));
+                    return intent;
                 })
                 .title("Custom permission")
                 .description("Some super fancy custom permission")
@@ -84,12 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 .title("Required Permissions")
                 .negativeText("Cancel")
                 .request()
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        Toast.makeText(MainActivity.this, "has permissions ? " + granted, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .subscribe(granted
+                        -> Toast.makeText(MainActivity.this, "has permissions ? " + granted, Toast.LENGTH_SHORT).show());
         compositeDisposable.add(disposable);
     }
 

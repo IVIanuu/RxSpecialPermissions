@@ -16,7 +16,6 @@
 
 package com.ivianuu.rxspecialpermissions.permissionrequest;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -25,9 +24,6 @@ import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogEvent;
 
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.functions.Function;
-import rx_activity_result2.Result;
 import rx_activity_result2.RxActivityResult;
 
 /**
@@ -67,33 +63,22 @@ final class SinglePermissionRequest implements PermissionRequest {
             dialogBuilder.negativeText(requestBuilder.negativeText);
 
             return dialogBuilder.build()
-                    .map(new Function<SingleButtonDialogEvent, DialogAction>() {
-                        @Override
-                        public DialogAction apply(SingleButtonDialogEvent event) throws Exception {
-                            return event.getWhich(); // get pressed button
-                        }
-                    })
-                    .flatMapSingle(new Function<DialogAction, SingleSource<Boolean>>() {
-                        @Override
-                        public SingleSource<Boolean> apply(final DialogAction action) throws Exception {
-                            if (action == DialogAction.NEGATIVE) {
-                                // user clicked the cancel button
-                                return Single.just(false);
-                            } else {
-                                // request the permission
-                                return RxActivityResult.on(requestBuilder.activity)
-                                        .startIntent(requestBuilder.permission.getIntent())
-                                        .take(1)
-                                        .singleOrError()
-                                        .map(new Function<Result<Activity>, Boolean>() {
-                                            @Override
-                                            public Boolean apply(Result<Activity> result) throws Exception {
-                                                // map to the current granted state
-                                                return requestBuilder.permission.granted();
-                                            }
-                                        });
+                    .map(SingleButtonDialogEvent::getWhich) // get pressed button
+                    .flatMapSingle(action -> {
+                        if (action == DialogAction.NEGATIVE) {
+                            // user clicked the cancel button
+                            return Single.just(false);
+                        } else {
+                            // request the permission
+                            return RxActivityResult.on(requestBuilder.activity)
+                                    .startIntent(requestBuilder.permission.getIntent())
+                                    .take(1)
+                                    .singleOrError()
+                                    .map(result -> {
+                                        // map to the current granted state
+                                        return requestBuilder.permission.granted();
+                                    });
 
-                            }
                         }
                     });
         }
