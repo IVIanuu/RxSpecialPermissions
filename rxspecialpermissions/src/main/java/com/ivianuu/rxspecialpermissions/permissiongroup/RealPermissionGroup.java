@@ -38,4 +38,15 @@ final class RealPermissionGroup implements PermissionGroup {
     public List<Permission> getPermissions() {
         return permissions;
     }
+
+    @Override
+    public boolean granted() {
+        for (Permission permission : permissions) {
+            if (!permission.granted()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

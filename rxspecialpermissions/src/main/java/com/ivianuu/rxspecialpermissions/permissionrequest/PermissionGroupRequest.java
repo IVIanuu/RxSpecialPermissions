@@ -48,7 +48,7 @@ final class PermissionGroupRequest implements PermissionRequest {
     @Override
     public Single<Boolean> request() {
         return Single.create(e -> {
-            if (granted()) {
+            if (requestBuilder.permissionGroup.granted()) {
                 // all permissions are granted so emit just true
                 e.onSuccess(true);
             } else {
@@ -118,16 +118,6 @@ final class PermissionGroupRequest implements PermissionRequest {
                 });
             }
         });
-    }
-
-    private boolean granted() {
-        for (Permission permission : requestBuilder.permissionGroup.getPermissions()) {
-            if (!permission.granted()) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     static class PermissionListItem extends CustomModelListItem<Permission, PermissionListItem.ViewHolder> {

@@ -31,4 +31,9 @@ public interface PermissionGroup {
      */
     @NonNull
     List<Permission> getPermissions();
+
+    /**
+     * Returns whether the permissions are granted
+     */
+    boolean granted();
 }
