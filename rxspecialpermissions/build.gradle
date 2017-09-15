@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
     compileOptions {
@@ -19,17 +17,19 @@ android {
 
 dependencies {
     // Android support
-    api 'com.android.support:support-annotations:26.0.2'
+    api rootProject.ext.supportAnnotations
+
+    // Material dialogs
+    api rootProject.ext.materialDialogs
 
     // RxActivityResult
-    api 'com.github.VictorAlbertos:RxActivityResult:0.4.5-2.x'
+    api rootProject.ext.rxActivityResult
 
     // RxJava
-    api "io.reactivex.rxjava2:rxjava:2.1.2"
+    api rootProject.ext.rxJava
 
     // RxMaterialDialogs
-    api 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs:25a88eaf16'
-    api 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs-commons:25a88eaf16'
+    api rootProject.ext.rxMaterialDialogs
 }
 
 // build a jar with source files
