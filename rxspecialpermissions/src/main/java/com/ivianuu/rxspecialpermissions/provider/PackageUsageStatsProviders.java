@@ -17,6 +17,8 @@
 package com.ivianuu.rxspecialpermissions.provider;
 
 import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -25,6 +27,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 
 import com.ivianuu.rxspecialpermissions.permission.RealPermission;
+
+import java.util.List;
 
 /**
  * Package usage stats providers
@@ -40,7 +44,17 @@ public class PackageUsageStatsProviders implements RealPermission.GrantedProvide
                     = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
             int mode = appOps.checkOpNoThrow("android:get_usage_stats",
                     android.os.Process.myUid(), context.getPackageName());
-            return mode == AppOpsManager.MODE_ALLOWED;
+            if (mode != AppOpsManager.MODE_ALLOWED) {
+                return false;
+            }
+
+            // Verify that access is possible. Some devices "lie" and return MODE_ALLOWED even when it's not.
+            final long now = System.currentTimeMillis();
+            final UsageStatsManager usageStatsManager
+                    = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+            final List<UsageStats> stats
+                    = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, now - 1000 * 10, now);
+            return (stats != null && !stats.isEmpty());
         }
     }
 
