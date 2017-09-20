@@ -26,7 +26,7 @@ import io.reactivex.Single;
  */
 public interface PermissionRequest {
     /**
-     * Returns whether permissions are granted
+     * Returns whether permissions are granted or not
      */
     @CheckResult @NonNull Single<Boolean> request();
 }
