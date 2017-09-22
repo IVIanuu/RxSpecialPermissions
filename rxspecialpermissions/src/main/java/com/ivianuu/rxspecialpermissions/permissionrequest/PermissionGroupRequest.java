@@ -100,22 +100,8 @@ final class PermissionGroupRequest implements PermissionRequest {
                             }
                         });
 
-                // dispose the dialogs on dispose
-                e.setDisposable(new Disposable() {
-                    private boolean disposed;
-                    @Override
-                    public void dispose() {
-                        if (!disposed) {
-                            disposed = true;
-                            disposable.dispose();
-                        }
-                    }
-
-                    @Override
-                    public boolean isDisposed() {
-                        return disposed;
-                    }
-                });
+                // cancel the dialogs
+                e.setCancellable(disposable::dispose);
             }
         });
     }
