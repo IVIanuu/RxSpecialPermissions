@@ -101,7 +101,7 @@ public final class PermissionGroupBuilder {
      * Adds the permission to this group
      */
     @NonNull
-    public PermissionGroupBuilder add(@NonNull Permission permission) {
+    public PermissionGroupBuilder addPermission(@NonNull Permission permission) {
         this.permissions.add(permission);;
         return this;
     }

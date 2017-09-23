@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
         // optional set the config
         RxSpecialPermissions.Config config = RxSpecialPermissions.configBuilder(this)
-                .grantText("Joo")
-                .denyText("Hehe")
-                .cancelableDialogs(true)
+                .grantText("Grant")
+                .denyText("Deny")
+                .cancelableDialogs(false)
                 .build();
         RxSpecialPermissions.setConfig(config);
 
