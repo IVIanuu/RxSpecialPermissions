@@ -24,6 +24,7 @@ import com.ivianuu.rxspecialpermissions.permission.PermissionBuilder;
 import com.ivianuu.rxspecialpermissions.provider.AccessibilityServiceProviders;
 import com.ivianuu.rxspecialpermissions.provider.DeviceAdminProviders;
 import com.ivianuu.rxspecialpermissions.provider.IgnoreBatteryOptimizationsProviders;
+import com.ivianuu.rxspecialpermissions.provider.InstallUnknownAppsProviders;
 import com.ivianuu.rxspecialpermissions.provider.NotificationListenerProviders;
 import com.ivianuu.rxspecialpermissions.provider.NotificationPolicyAccessProviders;
 import com.ivianuu.rxspecialpermissions.provider.PackageUsageStatsProviders;
@@ -87,9 +88,21 @@ public final class PermissionBuilderChooser {
      * Returns a builder with ignore battery optimizations providers
      */
     @NonNull
-    public PermissionBuilder ignoreBatteryOptimization() {
+    public PermissionBuilder ignoreBatteryOptimizations() {
         IgnoreBatteryOptimizationsProviders providers
                 = IgnoreBatteryOptimizationsProviders.create(context);
+        return new PermissionBuilder(context)
+                .grantedProvider(providers)
+                .intentProvider(providers);
+    }
+
+    /**
+     * Returns a builder with install unknown apps providers
+     */
+    @NonNull
+    public PermissionBuilder installUnknownApps() {
+        InstallUnknownAppsProviders providers
+                = InstallUnknownAppsProviders.create(context);
         return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);

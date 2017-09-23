@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
                 .iconRes(R.mipmap.ic_launcher)
                 .build();
 
+        Permission installUnknownAppsPermission = RxSpecialPermissions.permissionBuilder(this)
+                .installUnknownApps()
+                .title("Install unknown apps")
+                .description("We need this permission to install a virus on your phone")
+                .iconRes(R.mipmap.ic_launcher)
+                .build();
+
         Permission notificationPermission = RxSpecialPermissions.permissionBuilder(this)
                 .notificationListener()
                 .title("Notification listener")
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         PermissionGroup permissionGroup = RxSpecialPermissions.permissionGroupBuilder(this)
                 .title("Required Permissions")
                 .addPermission(accessibilityPermission)
+                .addPermission(installUnknownAppsPermission)
                 .addPermission(notificationPermission)
                 .addPermission(systemOverlayPermission)
                 .addPermission(customPermission)
