@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         PermissionGroup permissionGroup = RxSpecialPermissions.permissionGroupBuilder(this)
                 .title("Required Permissions")
-                .add(accessibilityPermission)
-                .add(notificationPermission)
-                .add(systemOverlayPermission)
-                .add(customPermission)
+                .addPermission(accessibilityPermission)
+                .addPermission(notificationPermission)
+                .addPermission(systemOverlayPermission)
+                .addPermission(customPermission)
                 .build();
 
         Disposable disposable = permissionGroup.request(this)
