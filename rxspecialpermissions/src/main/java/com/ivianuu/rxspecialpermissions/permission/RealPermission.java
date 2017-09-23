@@ -16,42 +16,48 @@
 
 package com.ivianuu.rxspecialpermissions.permission;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.ivianuu.rxspecialpermissions.Permission;
+
+import io.reactivex.Single;
 
 /**
  * Base permission
  */
 public final class RealPermission implements Permission {
 
-    private final Context context;
     private final String title;
     private final String description;
     private final Drawable icon;
     private final GrantedProvider grantedProvider;
     private final IntentProvider intentProvider;
 
-    public RealPermission(@NonNull PermissionBuilder builder) {
-        this.context = builder.context;
-        this.title = builder.title;
-        this.description = builder.description;
-        this.icon = builder.icon;
-        this.grantedProvider = builder.grantedProvider;
-        this.intentProvider = builder.intentProvider;
+    public RealPermission(@NonNull String title,
+                          @Nullable String description,
+                          @Nullable Drawable icon,
+                          @NonNull GrantedProvider grantedProvider,
+                          @NonNull IntentProvider intentProvider) {
+        this.title = title;
+        this.description = description;
+        this.icon = icon;
+        this.grantedProvider = grantedProvider;
+        this.intentProvider = intentProvider;
     }
 
     @Override
     public boolean granted() {
-        return grantedProvider.granted(context);
+        return grantedProvider.granted();
     }
 
     @NonNull
     @Override
     public Intent getIntent() {
-        return intentProvider.getIntent(context);
+        return intentProvider.getIntent();
     }
 
     @NonNull
@@ -72,17 +78,23 @@ public final class RealPermission implements Permission {
         return icon;
     }
 
+    @NonNull
+    @Override
+    public Single<Boolean> request(@NonNull Activity activity) {
+        return SinglePermissionRequest.create(activity, this);
+    }
+
     public interface GrantedProvider {
         /**
          * Returns whether the permission is granted
          */
-        boolean granted(@NonNull Context context);
+        boolean granted();
     }
 
     public interface IntentProvider {
         /**
          * Returns the intent
          */
-        @NonNull Intent getIntent(@NonNull Context context);
+        @NonNull Intent getIntent();
     }
 }

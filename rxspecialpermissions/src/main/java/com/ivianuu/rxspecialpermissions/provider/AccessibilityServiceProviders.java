@@ -31,14 +31,25 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class AccessibilityServiceProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
+    private final Context context;
     private final Class clazz;
 
-    public AccessibilityServiceProviders(Class clazz) {
+    private AccessibilityServiceProviders(Context context, Class clazz) {
+        this.context = context;
         this.clazz = clazz;
     }
 
+    /**
+     * Returns new accessibility service providers
+     */
+    @NonNull
+    public static AccessibilityServiceProviders create(@NonNull Context context,
+                                                       @NonNull Class clazz) {
+        return new AccessibilityServiceProviders(context, clazz);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         int accessibilityEnabled = 0;
         final String service = context.getPackageName() + "/" + clazz.getCanonicalName();
         try {
@@ -71,7 +82,7 @@ public final class AccessibilityServiceProviders implements RealPermission.Grant
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         return new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
     }
 }

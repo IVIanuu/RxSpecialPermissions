@@ -24,18 +24,20 @@ import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
+import com.ivianuu.rxspecialpermissions.Permission;
+
 /**
  * Real permission builder
  */
 public final class PermissionBuilder {
 
-    final Context context;
+    private final Context context;
 
-    String title;
-    String description;
-    Drawable icon;
-    RealPermission.GrantedProvider grantedProvider;
-    RealPermission.IntentProvider intentProvider;
+    private String title;
+    private String description;
+    private Drawable icon;
+    private RealPermission.GrantedProvider grantedProvider;
+    private RealPermission.IntentProvider intentProvider;
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public PermissionBuilder(@NonNull Context context) {
@@ -126,6 +128,6 @@ public final class PermissionBuilder {
             throw new IllegalStateException("missing intent provider");
         }
 
-        return new RealPermission(this);
+        return new RealPermission(title, description, icon, grantedProvider, intentProvider);
     }
 }

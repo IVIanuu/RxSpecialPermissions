@@ -31,10 +31,26 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class NotificationPolicyAccessProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+
+    private final Context context;
+
+    private NotificationPolicyAccessProviders(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns new notification policy access providers
+     */
+    @NonNull
+    public static NotificationPolicyAccessProviders create(@NonNull Context context) {
+        return new NotificationPolicyAccessProviders(context);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager
+                    = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             return notificationManager.isNotificationPolicyAccessGranted();
         } else {
             return false;
@@ -43,7 +59,7 @@ public final class NotificationPolicyAccessProviders implements RealPermission.G
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         return new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
     }
 }

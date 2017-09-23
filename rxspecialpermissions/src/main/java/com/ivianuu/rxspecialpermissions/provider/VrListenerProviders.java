@@ -33,14 +33,25 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class VrListenerProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
+    private final Context context;
     private final Class clazz;
 
-    public VrListenerProviders(Class clazz) {
+    public VrListenerProviders(Context context, Class clazz) {
+        this.context = context;
         this.clazz = clazz;
     }
 
+    /**
+     * Returns new vr listener providers
+     */
+    @NonNull
+    public static VrListenerProviders create(@NonNull Context context,
+                                      @NonNull Class clazz) {
+        return new VrListenerProviders(context, clazz);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ComponentName componentName = new ComponentName(context, clazz);
             return VrListenerService.isVrModePackageEnabled(context, componentName);
@@ -51,7 +62,7 @@ public final class VrListenerProviders implements RealPermission.GrantedProvider
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         return new Intent(Settings.ACTION_VR_LISTENER_SETTINGS);
     }
 }

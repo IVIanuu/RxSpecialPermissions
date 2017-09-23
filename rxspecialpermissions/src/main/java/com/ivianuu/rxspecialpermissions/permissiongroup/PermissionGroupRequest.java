@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.permissionrequest;
+package com.ivianuu.rxspecialpermissions.permissiongroup;
 
+import android.app.Activity;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,8 +28,10 @@ import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogEvent;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomModelListItem;
+import com.ivianuu.rxspecialpermissions.Permission;
+import com.ivianuu.rxspecialpermissions.PermissionGroup;
 import com.ivianuu.rxspecialpermissions.R;
-import com.ivianuu.rxspecialpermissions.permission.Permission;
+import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
@@ -36,19 +40,29 @@ import rx_activity_result2.RxActivityResult;
 /**
  * Requests a permission group
  */
-final class PermissionGroupRequest implements PermissionRequest {
-
-    private final PermissionGroupRequestBuilder requestBuilder;
-
-    PermissionGroupRequest(@NonNull PermissionGroupRequestBuilder requestBuilder) {
-        this.requestBuilder = requestBuilder;
+final class PermissionGroupRequest {
+    
+    private final Activity activity;
+    private final PermissionGroup permissionGroup;
+    
+    private PermissionGroupRequest(Activity activity,
+                                   PermissionGroup permissionGroup) {
+        this.activity = activity;
+        this.permissionGroup = permissionGroup;
     }
 
-    @NonNull
-    @Override
-    public Single<Boolean> request() {
+    /**
+     * Emits the result of the request
+     */
+    @CheckResult @NonNull
+    static Single<Boolean> create(@NonNull Activity activity,
+                                  @NonNull PermissionGroup permissionGroup) {
+        return new PermissionGroupRequest(activity, permissionGroup).request();
+    }
+    
+    private Single<Boolean> request() {
         return Single.create(e -> {
-            if (requestBuilder.permissionGroup.granted()) {
+            if (permissionGroup.granted()) {
                 // all permissions are granted so emit just true
                 e.onSuccess(true);
             } else {
@@ -56,14 +70,18 @@ final class PermissionGroupRequest implements PermissionRequest {
 
                 // create dialog
                 CustomListDialogBuilder<PermissionListItem> dialogBuilder
-                        = RxMaterialDialogs.customListDialog(requestBuilder.activity);
-                dialogBuilder.cancelable(requestBuilder.cancelable);
-                dialogBuilder.negativeText(requestBuilder.negativeText);
-                dialogBuilder.title(requestBuilder.title);
-                dialogBuilder.content(requestBuilder.content);
+                        = RxMaterialDialogs.customListDialog(activity);
+                dialogBuilder.cancelable(RxSpecialPermissions.getConfig().areDialogsCancelable());
+                dialogBuilder.negativeText(RxSpecialPermissions.getConfig().getDenyText());
+                if (permissionGroup.getTitle() != null) {
+                    dialogBuilder.title(permissionGroup.getTitle());
+                }
+                if (permissionGroup.getDescription() != null) {
+                    dialogBuilder.content(permissionGroup.getDescription());
+                }
 
                 // add permissions
-                for (Permission permission : requestBuilder.permissionGroup.getPermissions()) {
+                for (Permission permission : permissionGroup.getPermissions()) {
                     if (permission.granted()) continue; // ignore granted permissions
                     dialogBuilder.addItem(new PermissionListItem(permission));
                 }
@@ -73,7 +91,7 @@ final class PermissionGroupRequest implements PermissionRequest {
                         .map(CustomModelListItem::getModel)
                         .flatMapSingleElement(permission -> {
                             // now we need to request the permission
-                            return RxActivityResult.on(requestBuilder.activity)
+                            return RxActivityResult.on(activity)
                                     .startIntent(permission.getIntent())
                                     .take(1)
                                     .singleOrError()

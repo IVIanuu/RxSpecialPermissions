@@ -35,8 +35,23 @@ import java.util.List;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class PackageUsageStatsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+
+    private final Context context;
+
+    private PackageUsageStatsProviders(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns new package usage stats providers
+     */
+    @NonNull
+    public static PackageUsageStatsProviders create(@NonNull Context context) {
+        return new PackageUsageStatsProviders(context);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1){
             return true;
         } else {
@@ -60,7 +75,7 @@ public final class PackageUsageStatsProviders implements RealPermission.GrantedP
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         return new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
     }
 }

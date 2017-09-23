@@ -32,16 +32,28 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class DeviceAdminProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
+    private final Context context;
     private final Class clazz;
     private final String explanation;
 
-    public DeviceAdminProviders(@NonNull Class clazz, @Nullable String explanation) {
+    public DeviceAdminProviders(Context context, Class clazz, String explanation) {
+        this.context = context;
         this.clazz = clazz;
         this.explanation = explanation;
     }
 
+    /**
+     * Returns new device admin providers
+     */
+    @NonNull
+    public static DeviceAdminProviders create(@NonNull Context context,
+                                       @NonNull Class clazz,
+                                       @Nullable String explanation) {
+        return new DeviceAdminProviders(context, clazz, explanation);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         ComponentName admin = new ComponentName(context, clazz);
         DevicePolicyManager dpm = (DevicePolicyManager)
                 context.getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -50,7 +62,7 @@ public final class DeviceAdminProviders implements RealPermission.GrantedProvide
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, new ComponentName(context, clazz));
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, explanation);

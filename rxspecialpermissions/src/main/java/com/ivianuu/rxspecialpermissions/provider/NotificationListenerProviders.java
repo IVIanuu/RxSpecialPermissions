@@ -34,8 +34,22 @@ public final class NotificationListenerProviders implements RealPermission.Grant
 
     private static final String NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
 
+    private final Context context;
+
+    private NotificationListenerProviders(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns new notification listener providers
+     */
+    @NonNull
+    public static NotificationListenerProviders create(@NonNull Context context) {
+        return new NotificationListenerProviders(context);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
             return false;
         } else {
@@ -49,7 +63,7 @@ public final class NotificationListenerProviders implements RealPermission.Grant
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         return new Intent(NOTIFICATION_LISTENER_SETTINGS);
     }
 }

@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.permission;
+package com.ivianuu.rxspecialpermissions;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import io.reactivex.Single;
 
 /**
  * Permission
  */
 public interface Permission {
     /**
-     * Returns whether the permission is granted
+     * Returns whether the permission is granted or not
      */
     boolean granted();
     /**
@@ -45,4 +49,8 @@ public interface Permission {
      * Returns the icon of this permission
      */
     @Nullable Drawable getIcon();
+    /**
+     * Requests the permission and emits the result
+     */
+    @CheckResult @NonNull Single<Boolean> request(@NonNull Activity activity);
 }

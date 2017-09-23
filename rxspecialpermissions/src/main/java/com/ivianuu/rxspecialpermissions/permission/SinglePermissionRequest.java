@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.permissionrequest;
+package com.ivianuu.rxspecialpermissions.permission;
 
+import android.app.Activity;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogEvent;
+import com.ivianuu.rxspecialpermissions.Permission;
+import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
 
 import io.reactivex.Single;
 import rx_activity_result2.RxActivityResult;
@@ -29,38 +33,47 @@ import rx_activity_result2.RxActivityResult;
 /**
  * Requests a single permission
  */
-final class SinglePermissionRequest implements PermissionRequest {
+final class SinglePermissionRequest {
 
-    private final SinglePermissionRequestBuilder requestBuilder;
-
-    SinglePermissionRequest(@NonNull SinglePermissionRequestBuilder requestBuilder) {
-        this.requestBuilder = requestBuilder;
+    private final Activity activity;
+    private final Permission permission;
+    
+    private SinglePermissionRequest(Activity activity,
+                                    Permission permission) {
+        this.activity = activity;
+        this.permission = permission;
     }
 
-    @NonNull
-    @Override
-    public Single<Boolean> request() {
-        if (requestBuilder.permission.granted()) {
+    /**
+     * Emits the result of the request
+     */
+    @CheckResult @NonNull
+    static Single<Boolean> create(@NonNull Activity activity, @NonNull Permission permission) {
+        return new SinglePermissionRequest(activity, permission).request();
+    }
+
+    private Single<Boolean> request() {
+        if (permission.granted()) {
             // permission is granted so just return true
             return Single.just(true);
         } else {
             // build dialog
             SingleButtonDialogBuilder dialogBuilder
-                    = RxMaterialDialogs.singleButtonDialog(requestBuilder.activity);
+                    = RxMaterialDialogs.singleButtonDialog(activity);
 
-            dialogBuilder.cancelable(requestBuilder.cancelable);
-            dialogBuilder.title(requestBuilder.permission.getTitle());
+            dialogBuilder.cancelable(RxSpecialPermissions.getConfig().areDialogsCancelable());
+            dialogBuilder.title(permission.getTitle());
 
-            if (requestBuilder.permission.getDescription() != null) {
-                dialogBuilder.content(requestBuilder.permission.getDescription());
+            if (permission.getDescription() != null) {
+                dialogBuilder.content(permission.getDescription());
             }
 
-            if (requestBuilder.permission.getIcon() != null) {
-                dialogBuilder.icon(requestBuilder.permission.getIcon());
+            if (permission.getIcon() != null) {
+                dialogBuilder.icon(permission.getIcon());
             }
 
-            dialogBuilder.positiveText(requestBuilder.positiveText);
-            dialogBuilder.negativeText(requestBuilder.negativeText);
+            dialogBuilder.positiveText(RxSpecialPermissions.getConfig().getGrantText());
+            dialogBuilder.negativeText(RxSpecialPermissions.getConfig().getDenyText());
 
             return dialogBuilder.build()
                     .map(SingleButtonDialogEvent::getWhich) // get pressed button
@@ -70,13 +83,13 @@ final class SinglePermissionRequest implements PermissionRequest {
                             return Single.just(false);
                         } else {
                             // request the permission
-                            return RxActivityResult.on(requestBuilder.activity)
-                                    .startIntent(requestBuilder.permission.getIntent())
+                            return RxActivityResult.on(activity)
+                                    .startIntent(permission.getIntent())
                                     .take(1)
                                     .singleOrError()
                                     .map(result -> {
                                         // map to the current granted state
-                                        return requestBuilder.permission.granted();
+                                        return permission.granted();
                                     });
 
                         }

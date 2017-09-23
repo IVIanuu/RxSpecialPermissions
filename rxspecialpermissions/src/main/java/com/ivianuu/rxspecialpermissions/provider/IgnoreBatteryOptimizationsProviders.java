@@ -32,8 +32,23 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class IgnoreBatteryOptimizationsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+
+    private final Context context;
+
+    private IgnoreBatteryOptimizationsProviders(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns new ignore battery optimizations providers
+     */
+    @NonNull
+    public static IgnoreBatteryOptimizationsProviders create(@NonNull Context context) {
+        return new IgnoreBatteryOptimizationsProviders(context);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
                 || powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
@@ -41,7 +56,7 @@ public final class IgnoreBatteryOptimizationsProviders implements RealPermission
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
         intent.setData(Uri.parse("package:" + context.getPackageName()));
         return intent;

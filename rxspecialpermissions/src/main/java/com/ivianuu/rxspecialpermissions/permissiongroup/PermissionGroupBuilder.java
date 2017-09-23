@@ -16,10 +16,16 @@
 
 package com.ivianuu.rxspecialpermissions.permissiongroup;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
+import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 
-import com.ivianuu.rxspecialpermissions.permission.Permission;
+import com.ivianuu.rxspecialpermissions.Permission;
+import com.ivianuu.rxspecialpermissions.PermissionGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +35,72 @@ import java.util.List;
  */
 public final class PermissionGroupBuilder {
 
+    private final Context context;
     private final List<Permission> permissions = new ArrayList<>();
-
+    private String title;
+    private String description;
+    private Drawable icon;
+    
     @RestrictTo(RestrictTo.Scope.LIBRARY)
-    public PermissionGroupBuilder() {
+    public PermissionGroupBuilder(@NonNull Context context) {
+        this.context = context;
+    }
 
+    /**
+     * Sets the title of this permission
+     */
+    @NonNull
+    public PermissionGroupBuilder titleRes(@StringRes int titleRes) {
+        return title(context.getString(titleRes));
+    }
+
+    /**
+     * Sets the title of this permission
+     */
+    @NonNull
+    public PermissionGroupBuilder title(@NonNull String title) {
+        this.title = title;
+        return this;
+    }
+
+    /**
+     * Sets the description of this permission
+     */
+    @NonNull
+    public PermissionGroupBuilder descriptionRes(@StringRes int descriptionRes) {
+        return description(context.getString(descriptionRes));
+    }
+
+    /**
+     * Sets the description of this permission
+     */
+    @NonNull
+    public PermissionGroupBuilder description(@NonNull String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Sets the icon of this permission
+     */
+    @NonNull
+    public PermissionGroupBuilder iconRes(@DrawableRes int iconRes) {
+        return icon(ContextCompat.getDrawable(context, iconRes));
+    }
+
+    /**
+     * Sets the icon of this permission
+     */
+    @NonNull
+    public PermissionGroupBuilder icon(@NonNull Drawable icon) {
+        this.icon = icon;
+        return this;
     }
 
     /**
      * Adds the permission to this group
      */
+    @NonNull
     public PermissionGroupBuilder add(@NonNull Permission permission) {
         this.permissions.add(permission);;
         return this;
@@ -49,6 +111,9 @@ public final class PermissionGroupBuilder {
      */
     @NonNull
     public PermissionGroup build() {
-        return new RealPermissionGroup(permissions);
+        if (permissions.isEmpty()) {
+            throw new IllegalStateException("must contain at least 1 permission");
+        }
+        return new RealPermissionGroup(permissions, title, description, icon);
     }
 }

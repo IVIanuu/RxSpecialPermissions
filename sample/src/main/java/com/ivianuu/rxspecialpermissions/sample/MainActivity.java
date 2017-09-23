@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.ivianuu.rxspecialpermissions.Permission;
+import com.ivianuu.rxspecialpermissions.PermissionGroup;
 import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
-import com.ivianuu.rxspecialpermissions.permission.Permission;
-import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroup;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -24,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         // normally you would do this in your applications oncreate method
         RxSpecialPermissions.init(getApplication());
+
+        // optional set the config
+        RxSpecialPermissions.Config config = RxSpecialPermissions.configBuilder(this)
+                .grantText("Joo")
+                .denyText("Hehe")
+                .cancelableDialogs(true)
+                .build();
+        RxSpecialPermissions.setConfig(config);
 
         Permission accessibilityPermission = RxSpecialPermissions.permissionBuilder(this)
                 .accessibilityService(DummyAccessibilityService.class)
@@ -48,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
         Permission customPermission = RxSpecialPermissions.permissionBuilder(this)
                 .custom()
-                .grantedProvider(context -> Util.hasCustomPermission())
-                .intentProvider(context -> {
+                .grantedProvider(Util::hasCustomPermission)
+                .intentProvider(() -> {
                     Intent intent = new Intent();
-                    intent.setComponent(new ComponentName(context, CustomPermissionActivity.class));
+                    intent.setComponent(new ComponentName(this, CustomPermissionActivity.class));
                     return intent;
                 })
                 .title("Custom permission")
@@ -59,18 +67,15 @@ public class MainActivity extends AppCompatActivity {
                 .iconRes(R.mipmap.ic_launcher)
                 .build();
 
-        PermissionGroup permissionGroup = RxSpecialPermissions.permissionGroupBuilder()
+        PermissionGroup permissionGroup = RxSpecialPermissions.permissionGroupBuilder(this)
+                .title("Required Permissions")
                 .add(accessibilityPermission)
                 .add(notificationPermission)
                 .add(systemOverlayPermission)
                 .add(customPermission)
                 .build();
 
-        Disposable disposable = RxSpecialPermissions.requestBuilder(this)
-                .permissionGroup(permissionGroup)
-                .title("Required Permissions")
-                .negativeText("Cancel")
-                .request()
+        Disposable disposable = permissionGroup.request(this)
                 .subscribe(granted
                         -> Toast.makeText(MainActivity.this, "has permissions ? " + granted, Toast.LENGTH_SHORT).show());
         compositeDisposable.add(disposable);

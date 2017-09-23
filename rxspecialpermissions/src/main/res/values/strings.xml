@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dialog buttons -->
-    <string name="default_positive_btn_text">OK</string>
-    <string name="default_negative_btn_text">Cancel</string>
-
-    <!-- Permission group request -->
-    <string name="default_permission_group_request_title">Required Permissions</string>
-
+    <string name="default_grant_text">Grant</string>
+    <string name="default_deny_text">Deny</string>
 </resources>

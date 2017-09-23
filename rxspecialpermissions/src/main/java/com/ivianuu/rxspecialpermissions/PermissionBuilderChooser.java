@@ -33,7 +33,6 @@ import com.ivianuu.rxspecialpermissions.provider.WriteSettingsProviders;
 
 /**
  * Permission builder chooser
- * Helps to choose from all the options
  */
 public final class PermissionBuilderChooser {
 
@@ -56,8 +55,9 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder accessibilityService(@NonNull Class clazz) {
-        AccessibilityServiceProviders providers = new AccessibilityServiceProviders(clazz);
-        return custom()
+        AccessibilityServiceProviders providers
+                = AccessibilityServiceProviders.create(context, clazz);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -76,8 +76,9 @@ public final class PermissionBuilderChooser {
     @NonNull
     public PermissionBuilder deviceAdmin(@NonNull Class clazz,
                                          @Nullable String explanation) {
-        DeviceAdminProviders providers = new DeviceAdminProviders(clazz, explanation);
-        return custom()
+        DeviceAdminProviders providers
+                = DeviceAdminProviders.create(context, clazz, explanation);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -87,8 +88,9 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder ignoreBatteryOptimization() {
-        IgnoreBatteryOptimizationsProviders providers = new IgnoreBatteryOptimizationsProviders();
-        return custom()
+        IgnoreBatteryOptimizationsProviders providers
+                = IgnoreBatteryOptimizationsProviders.create(context);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -98,8 +100,9 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder notificationListener() {
-        NotificationListenerProviders providers = new NotificationListenerProviders();
-        return custom()
+        NotificationListenerProviders providers
+                = NotificationListenerProviders.create(context);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -109,10 +112,11 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder notificationPolicyAccess() {
-        NotificationPolicyAccessProviders policyAccessProviders = new NotificationPolicyAccessProviders();
-        return custom()
-                .grantedProvider(policyAccessProviders)
-                .intentProvider(policyAccessProviders);
+        NotificationPolicyAccessProviders providers
+                = NotificationPolicyAccessProviders.create(context);
+        return new PermissionBuilder(context)
+                .grantedProvider(providers)
+                .intentProvider(providers);
     }
 
     /**
@@ -120,8 +124,9 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder packageUsageStats() {
-        PackageUsageStatsProviders providers = new PackageUsageStatsProviders();
-        return custom()
+        PackageUsageStatsProviders providers
+                = PackageUsageStatsProviders.create(context);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -131,8 +136,9 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder systemOverlay() {
-        SystemOverlayProviders providers = new SystemOverlayProviders();
-        return custom()
+        SystemOverlayProviders providers
+                = SystemOverlayProviders.create(context);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -141,9 +147,10 @@ public final class PermissionBuilderChooser {
      * Returns a builder with vr listener providers
      */
     @NonNull
-    public PermissionBuilder vrListener(Class clazz) {
-        VrListenerProviders providers = new VrListenerProviders(clazz);
-        return custom()
+    public PermissionBuilder vrListener(@NonNull Class clazz) {
+        VrListenerProviders providers
+                = VrListenerProviders.create(context, clazz);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }
@@ -153,8 +160,9 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder writeSettings() {
-        WriteSettingsProviders providers = new WriteSettingsProviders();
-        return custom()
+        WriteSettingsProviders providers
+                = WriteSettingsProviders.create(context);
+        return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);
     }

@@ -31,15 +31,30 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class WriteSettingsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+
+    private final Context context;
+
+    private WriteSettingsProviders(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns new write settings providers
+     */
+    @NonNull
+    public static WriteSettingsProviders create(@NonNull Context context) {
+        return new WriteSettingsProviders(context);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
                 || Settings.System.canWrite(context);
     }
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
         intent.setData(Uri.parse("package:" + context.getPackageName()));
         return intent;

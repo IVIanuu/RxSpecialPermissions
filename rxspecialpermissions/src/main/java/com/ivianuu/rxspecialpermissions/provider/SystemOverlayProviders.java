@@ -32,14 +32,28 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class SystemOverlayProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
+    private final Context context;
+
+    private SystemOverlayProviders(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * Returns new system overlay providers
+     */
+    @NonNull
+    public static SystemOverlayProviders create(@NonNull Context context) {
+        return new SystemOverlayProviders(context);
+    }
+
     @Override
-    public boolean granted(@NonNull Context context) {
+    public boolean granted() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context);
     }
 
     @NonNull
     @Override
-    public Intent getIntent(@NonNull Context context) {
+    public Intent getIntent() {
         return new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:" + context.getPackageName()));
     }
