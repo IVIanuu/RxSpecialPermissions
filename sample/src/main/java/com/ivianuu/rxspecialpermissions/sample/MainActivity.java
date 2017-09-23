@@ -61,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 .iconRes(R.mipmap.ic_launcher)
                 .build();
 
+        Permission unrestrictedDataAccessPermission = RxSpecialPermissions.permissionBuilder(this)
+                .unrestrictedDataAccess()
+                .title("Unrestricted data access")
+                .description("")
+                .iconRes(R.mipmap.ic_launcher)
+                .build();
+
         Permission customPermission = RxSpecialPermissions.permissionBuilder(this)
                 .custom()
                 .grantedProvider(Util::hasCustomPermission)
@@ -76,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         PermissionGroup permissionGroup = RxSpecialPermissions.permissionGroupBuilder(this)
                 .title("Required Permissions")
+                .addPermission(unrestrictedDataAccessPermission)
                 .addPermission(accessibilityPermission)
                 .addPermission(installUnknownAppsPermission)
                 .addPermission(notificationPermission)

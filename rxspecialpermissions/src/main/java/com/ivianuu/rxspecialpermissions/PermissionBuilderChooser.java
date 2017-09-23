@@ -29,6 +29,7 @@ import com.ivianuu.rxspecialpermissions.provider.NotificationListenerProviders;
 import com.ivianuu.rxspecialpermissions.provider.NotificationPolicyAccessProviders;
 import com.ivianuu.rxspecialpermissions.provider.PackageUsageStatsProviders;
 import com.ivianuu.rxspecialpermissions.provider.SystemOverlayProviders;
+import com.ivianuu.rxspecialpermissions.provider.UnrestrictedDataAccessProviders;
 import com.ivianuu.rxspecialpermissions.provider.VrListenerProviders;
 import com.ivianuu.rxspecialpermissions.provider.WriteSettingsProviders;
 
@@ -151,6 +152,18 @@ public final class PermissionBuilderChooser {
     public PermissionBuilder systemOverlay() {
         SystemOverlayProviders providers
                 = SystemOverlayProviders.create(context);
+        return new PermissionBuilder(context)
+                .grantedProvider(providers)
+                .intentProvider(providers);
+    }
+
+    /**
+     * Returns a builder with unrestricted data access providers
+     */
+    @NonNull
+    public PermissionBuilder unrestrictedDataAccess() {
+        UnrestrictedDataAccessProviders providers
+                = UnrestrictedDataAccessProviders.create(context);
         return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);

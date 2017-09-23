@@ -16,10 +16,13 @@
 
 package com.ivianuu.rxspecialpermissions.sample;
 
+import android.os.Build;
 import android.service.vr.VrListenerService;
+import android.support.annotation.RequiresApi;
 
 /**
  * @author Manuel Wrage (IVIanuu)
  */
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class DummyVrListener extends VrListenerService {
 }
