@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions;
+package com.ivianuu.rxspecialpermissions.permissiongroup;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.ivianuu.rxspecialpermissions.permission.Permission;
 
 import java.util.List;
 

@@ -24,8 +24,6 @@ import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
-import com.ivianuu.rxspecialpermissions.Permission;
-
 /**
  * Real permission builder
  */

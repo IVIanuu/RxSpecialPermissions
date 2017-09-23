@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions;
+package com.ivianuu.rxspecialpermissions.permission;
 
 import android.app.Activity;
 import android.content.Intent;

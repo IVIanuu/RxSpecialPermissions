@@ -21,8 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.ivianuu.rxspecialpermissions.Permission;
-import com.ivianuu.rxspecialpermissions.PermissionGroup;
+import com.ivianuu.rxspecialpermissions.permission.Permission;
 
 import java.util.List;
 

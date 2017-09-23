@@ -28,10 +28,9 @@ import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogEvent;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomModelListItem;
-import com.ivianuu.rxspecialpermissions.Permission;
-import com.ivianuu.rxspecialpermissions.PermissionGroup;
 import com.ivianuu.rxspecialpermissions.R;
 import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
+import com.ivianuu.rxspecialpermissions.permission.Permission;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;

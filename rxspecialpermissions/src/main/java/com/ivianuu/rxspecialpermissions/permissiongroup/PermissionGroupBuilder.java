@@ -24,8 +24,7 @@ import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
-import com.ivianuu.rxspecialpermissions.Permission;
-import com.ivianuu.rxspecialpermissions.PermissionGroup;
+import com.ivianuu.rxspecialpermissions.permission.Permission;
 
 import java.util.ArrayList;
 import java.util.List;

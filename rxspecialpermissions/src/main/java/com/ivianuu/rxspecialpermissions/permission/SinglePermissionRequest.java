@@ -24,7 +24,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogEvent;
-import com.ivianuu.rxspecialpermissions.Permission;
 import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
 
 import io.reactivex.Single;

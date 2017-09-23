@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.ivianuu.rxspecialpermissions.Permission;
-import com.ivianuu.rxspecialpermissions.PermissionGroup;
 import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
+import com.ivianuu.rxspecialpermissions.permission.Permission;
+import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroup;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;

@@ -22,8 +22,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.ivianuu.rxspecialpermissions.Permission;
-
 import io.reactivex.Single;
 
 /**
