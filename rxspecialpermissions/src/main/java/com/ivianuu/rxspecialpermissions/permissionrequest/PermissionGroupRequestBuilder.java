@@ -27,7 +27,7 @@ import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroup;
 /**
  * Permission group request builder
  */
-public class PermissionGroupRequestBuilder extends BasePermissionRequestBuilder<PermissionGroupRequestBuilder> {
+public final class PermissionGroupRequestBuilder extends BasePermissionRequestBuilder<PermissionGroupRequestBuilder> {
 
     PermissionGroup permissionGroup;
 

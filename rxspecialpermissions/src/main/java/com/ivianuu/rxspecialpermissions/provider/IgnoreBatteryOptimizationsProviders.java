@@ -31,7 +31,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  * Ignore battery
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class IgnoreBatteryOptimizationsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class IgnoreBatteryOptimizationsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
     @Override
     public boolean granted(@NonNull Context context) {
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);

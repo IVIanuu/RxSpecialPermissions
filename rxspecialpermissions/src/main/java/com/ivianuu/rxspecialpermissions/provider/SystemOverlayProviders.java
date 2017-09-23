@@ -30,7 +30,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  * System overlay providers
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class SystemOverlayProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class SystemOverlayProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
     @Override
     public boolean granted(@NonNull Context context) {

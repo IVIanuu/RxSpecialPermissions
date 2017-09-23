@@ -30,7 +30,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  * Notification policy access providers
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class NotificationPolicyAccessProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class NotificationPolicyAccessProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
     @Override
     public boolean granted(@NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

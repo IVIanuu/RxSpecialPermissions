@@ -34,7 +34,7 @@ import java.util.List;
  * Package usage stats providers
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class PackageUsageStatsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class PackageUsageStatsProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
     @Override
     public boolean granted(@NonNull Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1){

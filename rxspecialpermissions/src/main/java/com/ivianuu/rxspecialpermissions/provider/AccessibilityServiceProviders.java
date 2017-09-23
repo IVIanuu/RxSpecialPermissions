@@ -29,7 +29,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  * Accessibility service providers
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class AccessibilityServiceProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class AccessibilityServiceProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
     private final Class clazz;
 

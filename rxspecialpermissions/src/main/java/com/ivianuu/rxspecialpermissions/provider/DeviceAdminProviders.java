@@ -30,7 +30,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  * Device admin provider
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class DeviceAdminProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class DeviceAdminProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
     private final Class clazz;
     private final String explanation;

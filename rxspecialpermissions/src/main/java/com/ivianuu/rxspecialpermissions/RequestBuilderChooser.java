@@ -27,7 +27,7 @@ import com.ivianuu.rxspecialpermissions.permissionrequest.SinglePermissionReques
 /**
  * Request builder chooser
  */
-public class RequestBuilderChooser {
+public final class RequestBuilderChooser {
 
     private final Activity activity;
 

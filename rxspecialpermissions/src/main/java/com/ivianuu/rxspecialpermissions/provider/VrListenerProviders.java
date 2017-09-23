@@ -31,7 +31,7 @@ import com.ivianuu.rxspecialpermissions.permission.RealPermission;
  * Vr listener providers
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public class VrListenerProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
+public final class VrListenerProviders implements RealPermission.GrantedProvider, RealPermission.IntentProvider {
 
     private final Class clazz;
 
