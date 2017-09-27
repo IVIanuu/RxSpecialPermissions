@@ -33,6 +33,9 @@ dependencies {
 
     // RxMaterialDialogs
     api rootProject.ext.rxMaterialDialogs
+
+    // Preconditions
+    implementation rootProject.ext.preconditions
 }
 
 // build a jar with source files

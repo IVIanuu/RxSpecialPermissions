@@ -24,6 +24,8 @@ import android.support.annotation.Nullable;
 
 import io.reactivex.Single;
 
+import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+
 /**
  * Base permission
  */
@@ -79,6 +81,7 @@ public final class RealPermission implements Permission {
     @NonNull
     @Override
     public Single<Boolean> request(@NonNull Activity activity) {
+        checkNotNull(activity, "activity == null");
         return SinglePermissionRequest.create(activity, this);
     }
 

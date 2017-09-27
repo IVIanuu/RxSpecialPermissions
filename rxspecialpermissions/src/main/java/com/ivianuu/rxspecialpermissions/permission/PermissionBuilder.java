@@ -24,6 +24,8 @@ import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
+import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+
 /**
  * Real permission builder
  */
@@ -116,16 +118,9 @@ public final class PermissionBuilder {
      */
     @NonNull
     public Permission build() {
-        if (title == null) {
-            throw new IllegalStateException("missing title");
-        }
-        if (grantedProvider == null) {
-            throw new IllegalStateException("missing granted provider");
-        }
-        if (intentProvider == null) {
-            throw new IllegalStateException("missing intent provider");
-        }
-
+        checkNotNull(title, "title == null");
+        checkNotNull(grantedProvider, "grantedProvider == null");
+        checkNotNull(intentProvider, "intentProvider == null");
         return new RealPermission(title, description, icon, grantedProvider, intentProvider);
     }
 }

@@ -25,6 +25,8 @@ import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroupBuilder;
 
 import rx_activity_result2.RxActivityResult;
 
+import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+
 /**
  * RxSpecialPermissions
  */
@@ -40,6 +42,7 @@ public final class RxSpecialPermissions {
      * This must be called before requesting permissions
      */
     public static void init(@NonNull Application application) {
+        checkNotNull(application, "application == null");
         RxActivityResult.register(application);
         config = new Config.Builder(application)
                 .denyTextRes(R.string.default_deny_text)
@@ -51,6 +54,7 @@ public final class RxSpecialPermissions {
      * Sets the config
      */
     public static void setConfig(@NonNull Config config) {
+        checkNotNull(config, "config == null");
         RxSpecialPermissions.config = config;
     }
 
@@ -67,6 +71,7 @@ public final class RxSpecialPermissions {
      */
     @NonNull
     public static PermissionBuilderChooser permissionBuilder(@NonNull Context context) {
+        checkNotNull(context, "context == null");
         return new PermissionBuilderChooser(context);
     }
 
@@ -75,6 +80,7 @@ public final class RxSpecialPermissions {
      */
     @NonNull
     public static PermissionGroupBuilder permissionGroupBuilder(@NonNull Context context) {
+        checkNotNull(context, "context == null");
         return new PermissionGroupBuilder(context);
     }
 
@@ -83,6 +89,7 @@ public final class RxSpecialPermissions {
      */
     @NonNull
     public static Config.Builder configBuilder(@NonNull Context context) {
+        checkNotNull(context, "context == null");
         return new Config.Builder(context);
     }
 
@@ -182,6 +189,8 @@ public final class RxSpecialPermissions {
              */
             @NonNull
             public Config build() {
+                checkNotNull(grantText, "grantText == null");
+                checkNotNull(denyText, "denyText == null");
                 return new Config(grantText, denyText, cancelableDialogs);
             }
         }

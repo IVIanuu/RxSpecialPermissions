@@ -33,6 +33,8 @@ import com.ivianuu.rxspecialpermissions.provider.UnrestrictedDataAccessProviders
 import com.ivianuu.rxspecialpermissions.provider.VrListenerProviders;
 import com.ivianuu.rxspecialpermissions.provider.WriteSettingsProviders;
 
+import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+
 /**
  * Permission builder chooser
  */
@@ -57,6 +59,7 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder accessibilityService(@NonNull Class clazz) {
+        checkNotNull(clazz, "clazz == null");
         AccessibilityServiceProviders providers
                 = AccessibilityServiceProviders.create(context, clazz);
         return new PermissionBuilder(context)
@@ -78,6 +81,7 @@ public final class PermissionBuilderChooser {
     @NonNull
     public PermissionBuilder deviceAdmin(@NonNull Class clazz,
                                          @Nullable String explanation) {
+        checkNotNull(clazz, "clazz == null");
         DeviceAdminProviders providers
                 = DeviceAdminProviders.create(context, clazz, explanation);
         return new PermissionBuilder(context)
@@ -174,6 +178,7 @@ public final class PermissionBuilderChooser {
      */
     @NonNull
     public PermissionBuilder vrListener(@NonNull Class clazz) {
+        checkNotNull(clazz, "clazz == null");
         VrListenerProviders providers
                 = VrListenerProviders.create(context, clazz);
         return new PermissionBuilder(context)

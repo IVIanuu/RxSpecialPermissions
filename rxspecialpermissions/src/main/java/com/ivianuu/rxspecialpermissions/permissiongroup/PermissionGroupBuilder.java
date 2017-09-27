@@ -29,6 +29,8 @@ import com.ivianuu.rxspecialpermissions.permission.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ivianuu.preconditions.Preconditions.checkCollectionNotEmpty;
+
 /**
  * Permission group builder
  */
@@ -110,9 +112,7 @@ public final class PermissionGroupBuilder {
      */
     @NonNull
     public PermissionGroup build() {
-        if (permissions.isEmpty()) {
-            throw new IllegalStateException("must contain at least 1 permission");
-        }
+        checkCollectionNotEmpty(permissions, "permissions empty");
         return new RealPermissionGroup(permissions, title, description, icon);
     }
 }
