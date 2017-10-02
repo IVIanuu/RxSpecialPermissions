@@ -25,7 +25,7 @@ import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroupBuilder;
 
 import rx_activity_result2.RxActivityResult;
 
-import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+import static com.ivianuu.rxspecialpermissions.Preconditions.checkNotNull;
 
 /**
  * RxSpecialPermissions
