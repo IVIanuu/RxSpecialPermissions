@@ -33,7 +33,7 @@ import com.ivianuu.rxspecialpermissions.provider.UnrestrictedDataAccessProviders
 import com.ivianuu.rxspecialpermissions.provider.VrListenerProviders;
 import com.ivianuu.rxspecialpermissions.provider.WriteSettingsProviders;
 
-import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+import static com.ivianuu.rxspecialpermissions.Preconditions.checkNotNull;
 
 /**
  * Permission builder chooser

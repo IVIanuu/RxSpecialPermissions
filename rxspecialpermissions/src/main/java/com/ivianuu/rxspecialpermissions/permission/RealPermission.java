@@ -24,7 +24,7 @@ import android.support.annotation.Nullable;
 
 import io.reactivex.Single;
 
-import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+import static com.ivianuu.rxspecialpermissions.Preconditions.checkNotNull;
 
 /**
  * Base permission

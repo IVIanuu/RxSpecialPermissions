@@ -24,7 +24,7 @@ import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
-import static com.ivianuu.preconditions.Preconditions.checkNotNull;
+import static com.ivianuu.rxspecialpermissions.Preconditions.checkNotNull;
 
 /**
  * Real permission builder

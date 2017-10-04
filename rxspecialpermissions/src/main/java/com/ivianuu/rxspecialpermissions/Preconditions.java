@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 /**
  * Preconditions
  */
-final class Preconditions {
+public final class Preconditions {
 
     private Preconditions() {
         // no instances
@@ -31,7 +31,7 @@ final class Preconditions {
     /**
      * Throws a npe if the object is null
      */
-    static void checkNotNull(@Nullable Object o, @NonNull String message) {
+    public static void checkNotNull(@Nullable Object o, @NonNull String message) {
         if (o == null) {
             throw new NullPointerException(message);
         }
