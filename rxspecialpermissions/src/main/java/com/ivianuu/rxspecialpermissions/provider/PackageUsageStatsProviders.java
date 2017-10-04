@@ -52,7 +52,7 @@ public final class PackageUsageStatsProviders implements RealPermission.GrantedP
 
     @Override
     public boolean granted() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             return true;
         } else {
             AppOpsManager appOps
