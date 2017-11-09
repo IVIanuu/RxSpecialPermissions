@@ -85,6 +85,8 @@ final class PermissionGroupRequest {
                     dialogBuilder.addItem(new PermissionListItem(permission));
                 }
 
+                // pass the result to our observer
+                // pass errors to our observer
                 final Disposable disposable = dialogBuilder.build()
                         .map(CustomListDialogEvent::getItem)
                         .map(CustomModelListItem::getModel)
@@ -99,22 +101,8 @@ final class PermissionGroupRequest {
                                         return request();
                                     });
                         })
-                        .subscribe(granted -> {
-                            // pass the result to our observer
-                            if (!e.isDisposed()) {
-                                e.onSuccess(granted);
-                            }
-                        }, throwable -> {
-                            // pass errors to our observer
-                            if (!e.isDisposed()) {
-                                e.onError(throwable);
-                            }
-                        }, () -> {
-                            // empty user cancelled
-                            // this means the permissions were not granted
-                            if (!e.isDisposed()) {
-                                e.onSuccess(false);
-                            }
+                        .subscribe(e::onSuccess, e::onError, () -> {
+                            e.onSuccess(false);
                         });
 
                 // cancel the dialogs
