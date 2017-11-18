@@ -117,9 +117,10 @@ public final class PermissionBuilderChooser {
      * Returns a builder with notification listener providers
      */
     @NonNull
-    public PermissionBuilder notificationListener() {
+    public PermissionBuilder notificationListener(@NonNull Class clazz) {
+        checkNotNull(clazz, "clazz == null");
         NotificationListenerProviders providers
-                = NotificationListenerProviders.create(context);
+                = NotificationListenerProviders.create(context, clazz);
         return new PermissionBuilder(context)
                 .grantedProvider(providers)
                 .intentProvider(providers);

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         Permission notificationPermission = RxSpecialPermissions.permissionBuilder(this)
-                .notificationListener()
+                .notificationListener(DummyNotificationListener.class)
                 .title("Notification listener")
                 .description("We need this permission to read and report your notifications to the nsa")
                 .iconRes(R.mipmap.ic_launcher)

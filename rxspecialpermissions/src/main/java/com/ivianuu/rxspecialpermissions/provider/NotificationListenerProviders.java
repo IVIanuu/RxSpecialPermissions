@@ -16,7 +16,7 @@
 
 package com.ivianuu.rxspecialpermissions.provider;
 
-import android.content.ContentResolver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -35,17 +35,21 @@ public final class NotificationListenerProviders implements RealPermission.Grant
     private static final String NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
 
     private final Context context;
+    private final Class clazz;
 
-    private NotificationListenerProviders(Context context) {
+    private NotificationListenerProviders(Context context,
+                                          Class clazz) {
         this.context = context;
+        this.clazz = clazz;
     }
 
     /**
      * Returns new notification listener providers
      */
     @NonNull
-    public static NotificationListenerProviders create(@NonNull Context context) {
-        return new NotificationListenerProviders(context);
+    public static NotificationListenerProviders create(@NonNull Context context,
+                                                       @NonNull Class clazz) {
+        return new NotificationListenerProviders(context, clazz);
     }
 
     @Override
@@ -53,11 +57,9 @@ public final class NotificationListenerProviders implements RealPermission.Grant
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
             return false;
         } else {
-            ContentResolver contentResolver = context.getContentResolver();
-            String enabledNotificationListeners = Settings.Secure.getString(contentResolver, "enabled_notification_listeners");
-            String packageName = context.getPackageName();
-
-            return !(enabledNotificationListeners == null || !enabledNotificationListeners.contains(packageName));
+            ComponentName cn = new ComponentName(context, clazz);
+            String enabledListeners = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
+            return enabledListeners != null && enabledListeners.contains(cn.flattenToString());
         }
     }
 
