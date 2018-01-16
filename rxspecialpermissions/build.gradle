@@ -5,7 +5,6 @@ group='com.github.ivianuu'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -21,6 +20,9 @@ android {
 dependencies {
     // Android support
     api rootProject.ext.supportAnnotations
+
+    // Kotlin
+    api rootProject.ext.kotlinStdlib
 
     // Material dialogs
     api rootProject.ext.materialDialogs

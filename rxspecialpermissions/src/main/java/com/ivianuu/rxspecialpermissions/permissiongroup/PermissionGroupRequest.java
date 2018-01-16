@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ivianuu.rxactivityresult.RxActivityResult;
 import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.listcustom.CustomListDialogEvent;
@@ -34,19 +35,21 @@ import com.ivianuu.rxspecialpermissions.permission.Permission;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import rx_activity_result2.RxActivityResult;
 
 /**
  * Requests a permission group
  */
 final class PermissionGroupRequest {
-    
+
     private final Activity activity;
+    private final RxActivityResult rxActivityResult;
     private final PermissionGroup permissionGroup;
     
     private PermissionGroupRequest(Activity activity,
+                                   RxActivityResult rxActivityResult,
                                    PermissionGroup permissionGroup) {
         this.activity = activity;
+        this.rxActivityResult = rxActivityResult;
         this.permissionGroup = permissionGroup;
     }
 
@@ -56,7 +59,8 @@ final class PermissionGroupRequest {
     @CheckResult @NonNull
     static Single<Boolean> create(@NonNull Activity activity,
                                   @NonNull PermissionGroup permissionGroup) {
-        return new PermissionGroupRequest(activity, permissionGroup).request();
+        return new PermissionGroupRequest(activity, new RxActivityResult(activity),
+                permissionGroup).request();
     }
     
     private Single<Boolean> request() {
@@ -92,10 +96,9 @@ final class PermissionGroupRequest {
                         .map(CustomModelListItem::getModel)
                         .flatMapSingleElement(permission -> {
                             // now we need to request the permission
-                            return RxActivityResult.on(activity)
-                                    .startIntent(permission.getIntent())
-                                    .take(1)
-                                    .singleOrError()
+                            return rxActivityResult
+                                    .start(permission.getIntent())
+                                    .toSingle()
                                     .flatMap(result -> {
                                         // now we run the request again to do a loop
                                         return request();

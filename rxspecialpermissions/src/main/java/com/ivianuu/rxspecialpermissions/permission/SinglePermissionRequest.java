@@ -21,13 +21,13 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
+import com.ivianuu.rxactivityresult.RxActivityResult;
 import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogBuilder;
 import com.ivianuu.rxmaterialdialogs.singlebutton.SingleButtonDialogEvent;
 import com.ivianuu.rxspecialpermissions.RxSpecialPermissions;
 
 import io.reactivex.Single;
-import rx_activity_result2.RxActivityResult;
 
 /**
  * Requests a single permission
@@ -82,14 +82,14 @@ final class SinglePermissionRequest {
                             return Single.just(false);
                         } else {
                             // request the permission
-                            return RxActivityResult.on(activity)
-                                    .startIntent(permission.getIntent())
-                                    .take(1)
-                                    .singleOrError()
+                            return new RxActivityResult(activity)
+                                    .start(permission.getIntent())
                                     .map(result -> {
                                         // map to the current granted state
                                         return permission.granted();
-                                    });
+                                    })
+                                    .defaultIfEmpty(false)
+                                    .toSingle();
 
                         }
                     });

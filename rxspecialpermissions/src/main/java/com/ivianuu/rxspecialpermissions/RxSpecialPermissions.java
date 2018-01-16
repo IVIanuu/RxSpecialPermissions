@@ -23,8 +23,6 @@ import android.support.annotation.StringRes;
 
 import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroupBuilder;
 
-import rx_activity_result2.RxActivityResult;
-
 import static com.ivianuu.rxspecialpermissions.Preconditions.checkNotNull;
 
 /**
@@ -43,7 +41,6 @@ public final class RxSpecialPermissions {
      */
     public static void init(@NonNull Application application) {
         checkNotNull(application, "application == null");
-        RxActivityResult.register(application);
         config = new Config.Builder(application)
                 .denyTextRes(R.string.default_deny_text)
                 .grantTextRes(R.string.default_grant_text)
