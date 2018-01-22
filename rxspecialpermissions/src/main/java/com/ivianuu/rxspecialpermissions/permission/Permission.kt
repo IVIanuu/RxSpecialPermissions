@@ -14,43 +14,39 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.permission;
+package com.ivianuu.rxspecialpermissions.permission
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import io.reactivex.Single;
+import android.app.Activity
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import io.reactivex.Single
 
 /**
  * Permission
  */
-public interface Permission {
-    /**
-     * Returns whether the permission is granted or not
-     */
-    boolean granted();
+interface Permission {
     /**
      * Returns the intent of this permission
      */
-    @NonNull Intent getIntent();
+    val intent: Intent
     /**
      * Returns the title of this permission
      */
-    @NonNull String getTitle();
+    val title: String
     /**
      * Returns the description of this permission
      */
-    @Nullable String getDescription();
+    val desc: String?
     /**
      * Returns the icon of this permission
      */
-    @Nullable Drawable getIcon();
+    val icon: Drawable?
+    /**
+     * Returns whether the permission is granted or not
+     */
+    fun granted(): Boolean
     /**
      * Requests the permission and emits the result
      */
-    @CheckResult @NonNull Single<Boolean> request(@NonNull Activity activity);
+    fun request(activity: Activity): Single<Boolean>
 }

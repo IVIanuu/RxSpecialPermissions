@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.sample;
+package com.ivianuu.rxspecialpermissions.sample
 
-import android.annotation.SuppressLint;
-import android.service.notification.NotificationListenerService;
+import android.accessibilityservice.AccessibilityService
+import android.view.accessibility.AccessibilityEvent
 
 /**
  * @author Manuel Wrage (IVIanuu)
  */
-@SuppressLint("OverrideAbstract")
-public class DummyNotificationListener extends NotificationListenerService {
+class DummyAccessibilityService : AccessibilityService() {
+    override fun onAccessibilityEvent(accessibilityEvent: AccessibilityEvent) {
+
+    }
+
+    override fun onInterrupt() {
+
+    }
 }

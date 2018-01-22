@@ -30,7 +30,6 @@ buildscript {
 
         supportVersion = '26.1.0'
         supportAppCompat = "com.android.support:appcompat-v7:$supportVersion"
-        supportAnnotations = "com.android.support:support-annotations:$supportVersion"
 
         materialDialogs = 'com.afollestad.material-dialogs:core:0.9.4.5'
 

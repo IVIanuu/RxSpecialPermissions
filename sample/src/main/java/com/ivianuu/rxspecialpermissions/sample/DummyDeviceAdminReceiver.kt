@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.sample;
+package com.ivianuu.rxspecialpermissions.sample
 
-import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DeviceAdminReceiver
 
 /**
  * Dummy device admin receiver
  */
-public class DummyDeviceAdminReceiver extends DeviceAdminReceiver {
-}
+class DummyDeviceAdminReceiver : DeviceAdminReceiver()

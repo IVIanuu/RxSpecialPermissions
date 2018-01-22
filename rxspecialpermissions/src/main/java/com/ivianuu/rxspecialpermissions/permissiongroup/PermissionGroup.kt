@@ -14,51 +14,45 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.permissiongroup;
+package com.ivianuu.rxspecialpermissions.permissiongroup
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import com.ivianuu.rxspecialpermissions.permission.Permission;
-
-import java.util.List;
-
-import io.reactivex.Single;
+import android.app.Activity
+import android.graphics.drawable.Drawable
+import com.ivianuu.rxspecialpermissions.permission.Permission
+import io.reactivex.Single
 
 /**
  * Permission group
  */
-public interface PermissionGroup {
-    /**
-     * Returns whether the permissions are granted or not
-     */
-    boolean granted();
+interface PermissionGroup {
 
     /**
      * Returns the title of this permission group
      */
-    @Nullable String getTitle();
+    val title: String?
 
     /**
-     * Returns the description of this permission group
+     * Returns the desc of this permission group
      */
-    @Nullable String getDescription();
+    val desc: String?
 
     /**
      * Returns the icon of this permission group
      */
-    @Nullable Drawable getIcon();
+    val icon: Drawable?
 
     /**
      * Returns the permissions of this group
      */
-    @NonNull List<Permission> getPermissions();
+    val permissions: List<Permission>
+
+    /**
+     * Returns whether the permissions are granted or not
+     */
+    fun granted(): Boolean
 
     /**
      * Requests the permission and emits the result
      */
-    @CheckResult @NonNull Single<Boolean> request(@NonNull Activity activity);
+    fun request(activity: Activity): Single<Boolean>
 }

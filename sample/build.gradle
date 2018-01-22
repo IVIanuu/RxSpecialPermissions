@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -20,6 +21,9 @@ android {
 dependencies {
     // Android support
     implementation rootProject.ext.supportAppCompat
+
+    // Kotlin
+    implementation rootProject.ext.kotlinStdlib
 
     // Rx special permissions
     implementation project(':rxspecialpermissions')

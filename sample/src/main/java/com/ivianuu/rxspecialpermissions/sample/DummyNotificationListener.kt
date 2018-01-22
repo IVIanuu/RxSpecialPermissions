@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.sample;
+package com.ivianuu.rxspecialpermissions.sample
 
-import android.accessibilityservice.AccessibilityService;
-import android.view.accessibility.AccessibilityEvent;
+import android.annotation.SuppressLint
+import android.os.Build
+import android.service.notification.NotificationListenerService
+import android.support.annotation.RequiresApi
 
 /**
  * @author Manuel Wrage (IVIanuu)
  */
-public class DummyAccessibilityService extends AccessibilityService {
-    @Override
-    public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-
-    }
-
-    @Override
-    public void onInterrupt() {
-
-    }
-}
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+@SuppressLint("OverrideAbstract")
+class DummyNotificationListener : NotificationListenerService()
