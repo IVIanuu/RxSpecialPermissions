@@ -49,7 +49,7 @@ internal class SinglePermissionRequest constructor(
             dialogBuilder.negativeText(config.negativeText)
 
             return dialogBuilder.build()
-                .map { it.which } // get pressed button
+                .map { it.which }
                 .flatMapSingle { action ->
                     if (action == DialogAction.NEGATIVE) {
                         // user clicked the cancel button

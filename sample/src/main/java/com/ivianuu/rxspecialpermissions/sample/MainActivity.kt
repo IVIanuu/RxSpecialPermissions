@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 .subscribe { granted ->
                     Toast.makeText(
                         this@MainActivity,
-                        "has permissions ? " + granted!!,
+                        "has permissions ? " + granted,
                         Toast.LENGTH_SHORT).show()
                 }
         )

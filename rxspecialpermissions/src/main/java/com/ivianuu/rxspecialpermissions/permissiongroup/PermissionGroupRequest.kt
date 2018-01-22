@@ -43,8 +43,6 @@ internal class PermissionGroupRequest constructor(
                 // all permissions are granted so emit just true
                 e.onSuccess(true)
             } else {
-                // we have to request some permissions
-
                 val config = RxSpecialPermissions.getOrCreateConfig(activity)
 
                 // create dialog
@@ -73,6 +71,7 @@ internal class PermissionGroupRequest constructor(
                             .toSingle()
                             .flatMap { request() }
                     }
+                    .defaultIfEmpty(false)
                     .subscribe(
                         { e.onSuccess(it) },
                         { e.onError(it) }
@@ -85,32 +84,32 @@ internal class PermissionGroupRequest constructor(
     }
 
     internal class PermissionListItem(permission: Permission) :
-        CustomModelListItem<Permission, PermissionListItem.ViewHolder>(permission) {
+        CustomModelListItem<Permission, PermissionListItem.Holder>(permission) {
 
-        override fun getLayoutRes(): Int {
-            return R.layout.item_permission
+        override fun getLayoutRes(): Int = R.layout.item_permission
+
+        override fun createViewHolder(view: View): Holder = Holder(view)
+
+        override fun bind(holder: Holder) {
+            with(holder) {
+                icon.setImageDrawable(model.icon)
+                title.text = model.title
+                desc.text = model.desc
+            }
         }
 
-        override fun createViewHolder(view: View): ViewHolder {
-            return ViewHolder(view)
+        override fun unbind(holder: Holder) {
+            with(holder) {
+                icon.setImageDrawable(null)
+                title.text = null
+                desc.text = null
+            }
         }
 
-        override fun bind(holder: ViewHolder) {
-            holder.icon.setImageDrawable(model.icon)
-            holder.title.text = model.title
-            holder.desc.text = model.desc
-        }
-
-        override fun unbind(holder: ViewHolder) {
-            holder.icon.setImageDrawable(null)
-            holder.title.text = null
-            holder.desc.text = null
-        }
-
-        internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val icon = itemView.findViewById<ImageView>(R.id.permission_icon)
-            val title: TextView = itemView.findViewById<TextView>(R.id.permission_title)
-            val desc: TextView = itemView.findViewById<TextView>(R.id.permission_desc)
+        internal class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val icon: ImageView = itemView.findViewById(R.id.permission_icon)
+            val title: TextView = itemView.findViewById(R.id.permission_title)
+            val desc: TextView = itemView.findViewById(R.id.permission_desc)
         }
     }
 }
