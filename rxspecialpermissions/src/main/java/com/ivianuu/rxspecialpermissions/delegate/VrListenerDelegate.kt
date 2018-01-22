@@ -14,39 +14,33 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.service.vr.VrListenerService
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * System overlay providers
+ * A [RealPermission.Delegate] for the [Manifest.permission.BIND_VR_LISTENER_SERVICE] permission
  */
-class SystemOverlayProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class VrListenerDelegate(
+    private val context: Context,
+    private val clazz: Class<*>
+) : RealPermission.Delegate {
 
     override fun granted(): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
-    }
-
-    override fun getIntent(): Intent {
-        return Intent(
-            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-            Uri.parse("package:" + context.packageName)
-        )
-    }
-
-    companion object {
-
-        /**
-         * Returns new system overlay providers
-         */
-        fun create(context: Context): SystemOverlayProviders {
-            return SystemOverlayProviders(context)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val componentName = ComponentName(context, clazz)
+            VrListenerService.isVrModePackageEnabled(context, componentName)
+        } else {
+            false
         }
     }
+
+    override fun buildIntent(): Intent = Intent(Settings.ACTION_VR_LISTENER_SETTINGS)
 }

@@ -17,7 +17,6 @@
 package com.ivianuu.rxspecialpermissions.permission
 
 import android.app.Activity
-import android.support.annotation.CheckResult
 import com.afollestad.materialdialogs.DialogAction
 import com.ivianuu.rxactivityresult.RxActivityResult
 import com.ivianuu.rxmaterialdialogs.RxMaterialDialogs
@@ -27,12 +26,12 @@ import io.reactivex.Single
 /**
  * Requests a single permission
  */
-internal class SinglePermissionRequest private constructor(
+internal class SinglePermissionRequest constructor(
     private val activity: Activity,
     private val permission: Permission
 ) {
 
-    private fun request(): Single<Boolean> {
+    internal fun request(): Single<Boolean> {
         if (permission.granted()) {
             // permission is granted so just return true
             return Single.just(true)
@@ -42,17 +41,12 @@ internal class SinglePermissionRequest private constructor(
 
             dialogBuilder.cancelable(false)
             dialogBuilder.title(permission.title)
+            permission.desc?.let { dialogBuilder.content(it) }
+            permission.icon?.let { dialogBuilder.icon(it) }
 
-            if (permission.desc != null) {
-                dialogBuilder.content(permission.desc!!)
-            }
-
-            if (permission.icon != null) {
-                dialogBuilder.icon(permission.icon!!)
-            }
-
-            dialogBuilder.positiveText(RxSpecialPermissions.getConfig().grantText)
-            dialogBuilder.negativeText(RxSpecialPermissions.getConfig().denyText)
+            val config = RxSpecialPermissions.getOrCreateConfig(activity)
+            dialogBuilder.positiveText(config.positiveText)
+            dialogBuilder.negativeText(config.negativeText)
 
             return dialogBuilder.build()
                 .map { it.which } // get pressed button
@@ -69,16 +63,6 @@ internal class SinglePermissionRequest private constructor(
                             .toSingle()
                     }
                 }
-        }
-    }
-
-    companion object {
-        /**
-         * Emits the result of the request
-         */
-        @CheckResult
-        fun create(activity: Activity, permission: Permission): Single<Boolean> {
-            return SinglePermissionRequest(activity, permission).request()
         }
     }
 }

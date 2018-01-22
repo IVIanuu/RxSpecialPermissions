@@ -38,6 +38,6 @@ internal class RealPermissionGroup(
     }
 
     override fun request(activity: Activity): Single<Boolean> {
-        return PermissionGroupRequest.create(activity, this)
+        return PermissionGroupRequest(activity, this).request()
     }
 }

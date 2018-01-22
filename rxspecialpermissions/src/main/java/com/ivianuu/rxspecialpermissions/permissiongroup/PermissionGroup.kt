@@ -22,37 +22,16 @@ import com.ivianuu.rxspecialpermissions.permission.Permission
 import io.reactivex.Single
 
 /**
- * Permission group
+ * Wraps a list of [Permission]'s
  */
 interface PermissionGroup {
 
-    /**
-     * Returns the title of this permission group
-     */
     val title: String?
-
-    /**
-     * Returns the desc of this permission group
-     */
     val desc: String?
-
-    /**
-     * Returns the icon of this permission group
-     */
     val icon: Drawable?
-
-    /**
-     * Returns the permissions of this group
-     */
     val permissions: List<Permission>
 
-    /**
-     * Returns whether the permissions are granted or not
-     */
     fun granted(): Boolean
 
-    /**
-     * Requests the permission and emits the result
-     */
     fun request(activity: Activity): Single<Boolean>
 }

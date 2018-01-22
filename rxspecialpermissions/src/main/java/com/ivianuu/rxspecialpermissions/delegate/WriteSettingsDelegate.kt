@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -24,28 +25,15 @@ import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Write system settings providers
+ * A [RealPermission.Delegate] for the [Manifest.permission.WRITE_SETTINGS] permission
  */
-class WriteSettingsProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class WriteSettingsDelegate constructor(private val context: Context) : RealPermission.Delegate {
 
     override fun granted(): Boolean {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.System.canWrite(context)
     }
 
-    override fun getIntent(): Intent {
-        val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
-        intent.data = Uri.parse("package:" + context.packageName)
-        return intent
-    }
-
-    companion object {
-
-        /**
-         * Returns new write settings providers
-         */
-        fun create(context: Context): WriteSettingsProviders {
-            return WriteSettingsProviders(context)
-        }
+    override fun buildIntent(): Intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS).apply {
+        data = Uri.parse("package:" + context.packageName)
     }
 }

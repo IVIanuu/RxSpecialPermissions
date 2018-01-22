@@ -23,38 +23,29 @@ import android.graphics.drawable.Drawable
 import io.reactivex.Single
 
 /**
- * Base permission
+ * Real implementation of a [Permission]
  */
 class RealPermission(
     override val title: String,
     override val desc: String?,
     override val icon: Drawable?,
-    private val grantedProvider: GrantedProvider,
-    private val intentProvider: IntentProvider
+    private val delegate: Delegate
 ) : Permission {
 
     override val intent: Intent
-        get() = intentProvider.getIntent()
+        get() = delegate.buildIntent()
 
-    override fun granted(): Boolean {
-        return grantedProvider.granted()
-    }
+    override fun granted(): Boolean = delegate.granted()
 
     override fun request(activity: Activity): Single<Boolean> {
-        return SinglePermissionRequest.create(activity, this)
+        return SinglePermissionRequest(activity, this).request()
     }
 
-    interface GrantedProvider {
-        /**
-         * Returns whether the permission is granted
-         */
+    interface Delegate {
+
         fun granted(): Boolean
-    }
 
-    interface IntentProvider {
-        /**
-         * Returns the intent
-         */
-        fun getIntent(): Intent
+        fun buildIntent(): Intent
+
     }
 }

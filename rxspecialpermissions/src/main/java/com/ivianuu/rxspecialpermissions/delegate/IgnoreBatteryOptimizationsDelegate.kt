@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -25,10 +26,10 @@ import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Ignore battery
+ * A [RealPermission.Delegate] for the [Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS] permission
  */
-class IgnoreBatteryOptimizationsProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class IgnoreBatteryOptimizationsDelegate constructor(private val context: Context) :
+    RealPermission.Delegate {
 
     override fun granted(): Boolean {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -37,18 +38,8 @@ class IgnoreBatteryOptimizationsProviders private constructor(private val contex
         )
     }
 
-    override fun getIntent(): Intent {
-        val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-        intent.data = Uri.parse("package:" + context.packageName)
-        return intent
-    }
-
-    companion object {
-        /**
-         * Returns new ignore battery optimizations providers
-         */
-        fun create(context: Context): IgnoreBatteryOptimizationsProviders {
-            return IgnoreBatteryOptimizationsProviders(context)
+    override fun buildIntent(): Intent =
+        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+            data = Uri.parse("package:" + context.packageName)
         }
-    }
 }

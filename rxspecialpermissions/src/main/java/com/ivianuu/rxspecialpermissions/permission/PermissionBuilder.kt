@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,89 +17,78 @@
 package com.ivianuu.rxspecialpermissions.permission
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
+import com.ivianuu.rxspecialpermissions.delegate.*
 
 /**
- * Real permission builder
+ * Factory for [RealPermissionBuilder]'s
  */
-class PermissionBuilder constructor(context: Context) {
+object PermissionBuilder {
 
-    private val context = context.applicationContext
+    @JvmStatic
+    fun accessibility(
+        context: Context,
+        clazz: Class<*>
+    ): RealPermissionBuilder = withDelegate(context, AccessibilityDelegate(context, clazz))
 
-    private var title: String? = null
-    private var desc: String? = null
-    private var icon: Drawable? = null
-    private var grantedProvider: RealPermission.GrantedProvider? = null
-    private var intentProvider: RealPermission.IntentProvider? = null
+    @JvmOverloads
+    @JvmStatic
+    fun deviceAdmin(
+        context: Context,
+        clazz: Class<*>,
+        explanation: String? = null
+    ): RealPermissionBuilder = withDelegate(context, DeviceAdminDelegate(context, clazz, explanation))
 
-    /**
-     * Sets the title of this permission
-     */
-    fun titleRes(@StringRes titleRes: Int): PermissionBuilder {
-        return title(context.getString(titleRes))
-    }
+    @JvmStatic
+    fun ignoreBatteryOptimizations(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, IgnoreBatteryOptimizationsDelegate(context))
 
-    /**
-     * Sets the title of this permission
-     */
-    fun title(title: String): PermissionBuilder {
-        this.title = title
-        return this
-    }
+    @JvmStatic
+    fun installUnknownApps(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, InstallUnknownAppsDelegate(context))
 
-    /**
-     * Sets the description of this permission
-     */
-    fun descRes(@StringRes descRes: Int): PermissionBuilder {
-        return desc(context.getString(descRes))
-    }
+    @JvmStatic
+    fun notificationListener(
+        context: Context,
+        clazz: Class<*>
+    ): RealPermissionBuilder = withDelegate(context, NotificationListenerDelegate(context, clazz))
 
-    /**
-     * Sets the description of this permission
-     */
-    fun desc(desc: String): PermissionBuilder {
-        this.desc = desc
-        return this
-    }
+    @JvmStatic
+    fun notificationPolicyAccess(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, NotificationPolicyAccessDelegate(context))
 
-    /**
-     * Sets the icon of this permission
-     */
-    fun iconRes(@DrawableRes iconRes: Int): PermissionBuilder {
-        return icon(ContextCompat.getDrawable(context, iconRes))
-    }
+    @JvmStatic
+    fun packageUsageStats(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, PackageUsageStatsDelegate(context))
 
-    /**
-     * Sets the icon of this permission
-     */
-    fun icon(icon: Drawable): PermissionBuilder {
-        this.icon = icon
-        return this
-    }
+    @JvmStatic
+    fun systemOverlay(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, SystemOverlayDelegate(context))
 
-    /**
-     * Sets the granted predicate
-     */
-    fun grantedProvider(grantedProvider: RealPermission.GrantedProvider): PermissionBuilder {
-        this.grantedProvider = grantedProvider
-        return this
-    }
+    @JvmStatic
+    fun unrestrictedDataAccess(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, UnrestrictedDataAccessDelegate(context))
 
-    /**
-     * Sets the intent provider
-     */
-    fun intentProvider(intentProvider: RealPermission.IntentProvider): PermissionBuilder {
-        this.intentProvider = intentProvider
-        return this
-    }
+    @JvmStatic
+    fun vrListener(
+        context: Context,
+        clazz: Class<*>
+    ): RealPermissionBuilder = withDelegate(context, VrListenerDelegate(context, clazz))
 
-    /**
-     * Returns the permission
-     */
-    fun build(): Permission {
-        return RealPermission(title!!, desc, icon, grantedProvider!!, intentProvider!!)
-    }
+    @JvmStatic
+    fun writeSettings(
+        context: Context
+    ): RealPermissionBuilder = withDelegate(context, WriteSettingsDelegate(context))
+
+    @JvmStatic
+    fun withDelegate(
+        context: Context,
+        delegate: RealPermission.Delegate
+    ): RealPermissionBuilder =
+        RealPermissionBuilder(context, delegate)
 }

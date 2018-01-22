@@ -16,11 +16,8 @@
 
 package com.ivianuu.rxspecialpermissions
 
-import android.app.Application
 import android.content.Context
 import android.support.annotation.StringRes
-
-import com.ivianuu.rxspecialpermissions.permissiongroup.PermissionGroupBuilder
 
 /**
  * RxSpecialPermissions
@@ -29,112 +26,60 @@ object RxSpecialPermissions {
 
     private var config: Config? = null
 
-    /**
-     * This must be called before requesting permissions
-     */
-    @JvmStatic
-    fun init(application: Application) {
-        config = Config.Builder(application)
-            .denyTextRes(R.string.default_deny_text)
-            .grantTextRes(R.string.default_grant_text)
-            .build()
-    }
-
-    /**
-     * Sets the config
-     */
     @JvmStatic
     fun setConfig(config: Config) {
         RxSpecialPermissions.config = config
     }
 
-    /**
-     * Returns the config
-     */
     @JvmStatic
-    fun getConfig(): Config {
-        return config!!
+    fun getOrCreateConfig(context: Context): Config {
+        var config = this.config
+        if (config == null) { 
+            config = Config.Builder(context)
+                .negativeText(R.string.default_negative_text)
+                .positiveText(R.string.default_positive_text)
+                .build()
+            this.config = config
+        }
+        
+        return config
     }
 
-    /**
-     * Returns a permissions builder
-     */
-    @JvmStatic
-    fun permissionBuilder(context: Context): PermissionBuilderChooser {
-        return PermissionBuilderChooser(context)
-    }
-
-    /**
-     * Returns a permission group builder
-     */
-    @JvmStatic
-    fun permissionGroupBuilder(context: Context): PermissionGroupBuilder {
-        return PermissionGroupBuilder(context)
-    }
-
-    /**
-     * Returns a config builder
-     */
     @JvmStatic
     fun configBuilder(context: Context): Config.Builder {
         return Config.Builder(context)
     }
 
-    class Config private constructor(
-        val grantText: String,
-        val denyText: String
+    data class Config constructor(
+        val positiveText: String,
+        val negativeText: String
     ) {
 
         class Builder (private val context: Context) {
 
-            private var grantText: String? = null
-            private var denyText: String? = null
-
-            private var cancelableDialogs: Boolean = false
-
-            /**
-             * Sets the grant text of this config
-             */
-            fun grantTextRes(@StringRes grantTextRes: Int): Builder {
-                return grantText(context.getString(grantTextRes))
+            private var positiveText = context.getString(R.string.default_positive_text)
+            private var negativeText = context.getString(R.string.default_negative_text)
+            
+            fun positiveText(@StringRes positiveTextRes: Int): Builder {
+                return positiveText(context.getString(positiveTextRes))
             }
 
-            /**
-             * Sets the grant text of this config
-             */
-            fun grantText(grantText: String): Builder {
-                this.grantText = grantText
+            fun positiveText(positiveText: String): Builder {
+                this.positiveText = positiveText
                 return this
             }
 
-            /**
-             * Sets the deny text of this config
-             */
-            fun denyTextRes(@StringRes denyTextRes: Int): Builder {
-                return denyText(context.getString(denyTextRes))
+            fun negativeText(@StringRes negativeTextRes: Int): Builder {
+                return negativeText(context.getString(negativeTextRes))
             }
 
-            /**
-             * Sets the deny text of this config
-             */
-            fun denyText(denyText: String): Builder {
-                this.denyText = denyText
+            fun negativeText(negativeText: String): Builder {
+                this.negativeText = negativeText
                 return this
             }
 
-            /**
-             * Sets the dialogs cancelable
-             */
-            fun cancelableDialogs(cancelableDialogs: Boolean): Builder {
-                this.cancelableDialogs = cancelableDialogs
-                return this
-            }
-
-            /**
-             * Returns a new config instance
-             */
             fun build(): Config {
-                return Config(grantText!!, denyText!!)
+                return Config(positiveText, negativeText)
             }
         }
     }

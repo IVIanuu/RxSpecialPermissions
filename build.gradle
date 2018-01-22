@@ -28,7 +28,7 @@ buildscript {
 
         mavenPlugin = 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
-        supportVersion = '26.1.0'
+        supportVersion = '27.0.2'
         supportAppCompat = "com.android.support:appcompat-v7:$supportVersion"
 
         materialDialogs = 'com.afollestad.material-dialogs:core:0.9.4.5'

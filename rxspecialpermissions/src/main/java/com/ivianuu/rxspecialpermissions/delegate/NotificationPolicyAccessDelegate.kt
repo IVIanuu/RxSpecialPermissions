@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -24,10 +25,10 @@ import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Notification policy access providers
+ * A [RealPermission.Delegate] for the [Manifest.permission.ACCESS_NOTIFICATION_POLICY] permission
  */
-class NotificationPolicyAccessProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class NotificationPolicyAccessDelegate constructor(private val context: Context) :
+    RealPermission.Delegate {
 
     override fun granted(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -39,17 +40,5 @@ class NotificationPolicyAccessProviders private constructor(private val context:
         }
     }
 
-    override fun getIntent(): Intent {
-        return Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-    }
-
-    companion object {
-
-        /**
-         * Returns new notification policy access providers
-         */
-        fun create(context: Context): NotificationPolicyAccessProviders {
-            return NotificationPolicyAccessProviders(context)
-        }
-    }
+    override fun buildIntent(): Intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
 }

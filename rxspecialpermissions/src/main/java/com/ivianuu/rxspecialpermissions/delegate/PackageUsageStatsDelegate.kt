@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.app.AppOpsManager
 import android.app.usage.UsageStatsManager
 import android.content.Context
@@ -25,10 +26,10 @@ import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Package usage stats providers
+ * A [RealPermission.Delegate] for the [Manifest.permission.PACKAGE_USAGE_STATS] permission
  */
-class PackageUsageStatsProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class PackageUsageStatsDelegate (private val context: Context) :
+    RealPermission.Delegate {
 
     override fun granted(): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -56,17 +57,5 @@ class PackageUsageStatsProviders private constructor(private val context: Contex
         }
     }
 
-    override fun getIntent(): Intent {
-        return Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-    }
-
-    companion object {
-
-        /**
-         * Returns new package usage stats providers
-         */
-        fun create(context: Context): PackageUsageStatsProviders {
-            return PackageUsageStatsProviders(context)
-        }
-    }
+    override fun buildIntent(): Intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
 }

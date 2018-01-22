@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
@@ -23,13 +24,13 @@ import android.content.Intent
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Device admin provider
+ * A [RealPermission.Delegate] for the [Manifest.permission.BIND_DEVICE_ADMIN] permission
  */
-class DeviceAdminProviders(
+class DeviceAdminDelegate(
     private val context: Context,
     private val clazz: Class<*>,
     private val explanation: String?
-) : RealPermission.GrantedProvider, RealPermission.IntentProvider {
+) : RealPermission.Delegate {
 
     override fun granted(): Boolean {
         val admin = ComponentName(context, clazz)
@@ -37,23 +38,8 @@ class DeviceAdminProviders(
         return dpm.isAdminActive(admin)
     }
 
-    override fun getIntent(): Intent {
-        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, ComponentName(context, clazz))
-        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, explanation)
-        return intent
-    }
-
-    companion object {
-        /**
-         * Returns new device admin providers
-         */
-        fun create(
-            context: Context,
-            clazz: Class<*>,
-            explanation: String?
-        ): DeviceAdminProviders {
-            return DeviceAdminProviders(context, clazz, explanation)
-        }
+    override fun buildIntent(): Intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
+        putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, ComponentName(context, clazz))
+        putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, explanation)
     }
 }

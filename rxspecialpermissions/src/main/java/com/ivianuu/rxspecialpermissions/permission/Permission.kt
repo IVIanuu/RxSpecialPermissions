@@ -25,28 +25,13 @@ import io.reactivex.Single
  * Permission
  */
 interface Permission {
-    /**
-     * Returns the intent of this permission
-     */
+
     val intent: Intent
-    /**
-     * Returns the title of this permission
-     */
     val title: String
-    /**
-     * Returns the description of this permission
-     */
     val desc: String?
-    /**
-     * Returns the icon of this permission
-     */
     val icon: Drawable?
-    /**
-     * Returns whether the permission is granted or not
-     */
+
     fun granted(): Boolean
-    /**
-     * Requests the permission and emits the result
-     */
+
     fun request(activity: Activity): Single<Boolean>
 }

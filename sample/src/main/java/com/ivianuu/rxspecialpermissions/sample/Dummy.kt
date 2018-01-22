@@ -17,17 +17,33 @@
 package com.ivianuu.rxspecialpermissions.sample
 
 import android.accessibilityservice.AccessibilityService
+import android.annotation.SuppressLint
+import android.app.admin.DeviceAdminReceiver
+import android.os.Build
+import android.service.notification.NotificationListenerService
+import android.support.annotation.RequiresApi
 import android.view.accessibility.AccessibilityEvent
 
 /**
- * @author Manuel Wrage (IVIanuu)
+ * Dummy [AccessibilityService]
  */
 class DummyAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(accessibilityEvent: AccessibilityEvent) {
-
     }
 
     override fun onInterrupt() {
-
     }
 }
+
+/**
+ * Dummy [DeviceAdminReceiver]
+ */
+class DummyDeviceAdminReceiver : DeviceAdminReceiver()
+
+
+/**
+ * Dummy [NotificationListenerService]]
+ */
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+@SuppressLint("OverrideAbstract")
+class DummyNotificationListener : NotificationListenerService()

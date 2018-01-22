@@ -14,35 +14,28 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Providers for the install unknown apps permission
+ * A [RealPermission.Delegate] for the [Manifest.permission.SYSTEM_ALERT_WINDOW] permission
  */
-class InstallUnknownAppsProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class SystemOverlayDelegate constructor(private val context: Context) :
+    RealPermission.Delegate {
 
     override fun granted(): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.O || context.packageManager.canRequestPackageInstalls()
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
     }
 
-    override fun getIntent(): Intent {
-        return Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
-    }
-
-    companion object {
-
-        /**
-         * Returns new install unknown apps providers
-         */
-        fun create(context: Context): InstallUnknownAppsProviders {
-            return InstallUnknownAppsProviders(context)
-        }
-    }
+    override fun buildIntent(): Intent = Intent(
+        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+        Uri.parse("package:" + context.packageName)
+    )
 }

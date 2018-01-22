@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
+import android.Manifest
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -24,12 +25,12 @@ import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Notification listener providers
+ * A [RealPermission.Delegate] for the [Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE] permission
  */
-class NotificationListenerProviders private constructor(
+class NotificationListenerDelegate constructor(
     private val context: Context,
     private val clazz: Class<*>
-) : RealPermission.GrantedProvider, RealPermission.IntentProvider {
+) : RealPermission.Delegate {
 
     override fun granted(): Boolean {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -42,23 +43,5 @@ class NotificationListenerProviders private constructor(
         }
     }
 
-    override fun getIntent(): Intent {
-        return Intent(NOTIFICATION_LISTENER_SETTINGS)
-    }
-
-    companion object {
-
-        private val NOTIFICATION_LISTENER_SETTINGS =
-            "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
-
-        /**
-         * Returns new notification listener providers
-         */
-        fun create(
-            context: Context,
-            clazz: Class<*>
-        ): NotificationListenerProviders {
-            return NotificationListenerProviders(context, clazz)
-        }
-    }
+    override fun buildIntent(): Intent = Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
 }

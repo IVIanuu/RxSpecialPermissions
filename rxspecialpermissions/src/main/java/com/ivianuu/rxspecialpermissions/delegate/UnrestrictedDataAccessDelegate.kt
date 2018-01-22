@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ivianuu.rxspecialpermissions.provider
+package com.ivianuu.rxspecialpermissions.delegate
 
 import android.content.Context
 import android.content.Intent
@@ -25,10 +25,10 @@ import android.provider.Settings
 import com.ivianuu.rxspecialpermissions.permission.RealPermission
 
 /**
- * Unrestricted data access provider
+ * A [RealPermission.Delegate] for the unrestricted data access permission
  */
-class UnrestrictedDataAccessProviders private constructor(private val context: Context) :
-    RealPermission.GrantedProvider, RealPermission.IntentProvider {
+class UnrestrictedDataAccessDelegate (private val context: Context) :
+    RealPermission.Delegate {
 
     override fun granted(): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -41,20 +41,18 @@ class UnrestrictedDataAccessProviders private constructor(private val context: C
         return connectivityManager.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
     }
 
-    override fun getIntent(): Intent {
-        return Intent(
-            Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
-            Uri.parse("package:" + context.packageName)
-        )
-    }
+    override fun buildIntent(): Intent = Intent(
+        Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
+        Uri.parse("package:" + context.packageName)
+    )
 
     companion object {
 
         /**
          * Returns new unrestricted data access providers
          */
-        fun create(context: Context): UnrestrictedDataAccessProviders {
-            return UnrestrictedDataAccessProviders(context)
+        fun create(context: Context): UnrestrictedDataAccessDelegate {
+            return UnrestrictedDataAccessDelegate(context)
         }
     }
 }

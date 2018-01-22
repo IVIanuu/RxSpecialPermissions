@@ -30,15 +30,14 @@ import com.ivianuu.rxspecialpermissions.permission.Permission
 import io.reactivex.Single
 
 /**
- * Requests a permission group
+ * Requests permissions for a [PermissionGroup]
  */
-internal class PermissionGroupRequest private constructor(
+internal class PermissionGroupRequest constructor(
     private val activity: Activity,
-    private val rxActivityResult: RxActivityResult,
     private val permissionGroup: PermissionGroup
 ) {
 
-    private fun request(): Single<Boolean> {
+    fun request(): Single<Boolean> {
         return Single.create { e ->
             if (permissionGroup.granted()) {
                 // all permissions are granted so emit just true
@@ -46,22 +45,21 @@ internal class PermissionGroupRequest private constructor(
             } else {
                 // we have to request some permissions
 
+                val config = RxSpecialPermissions.getOrCreateConfig(activity)
+
                 // create dialog
                 val dialogBuilder = RxMaterialDialogs.customListDialog<PermissionListItem>(activity)
                 dialogBuilder.cancelable(false)
-                dialogBuilder.negativeText(RxSpecialPermissions.getConfig().denyText)
-                if (permissionGroup.title != null) {
-                    dialogBuilder.title(permissionGroup.title!!)
-                }
-                if (permissionGroup.desc != null) {
-                    dialogBuilder.content(permissionGroup.desc!!)
-                }
+                dialogBuilder.negativeText(config.negativeText)
+
+                permissionGroup.title?.let { dialogBuilder.title(it) }
+                permissionGroup.desc?.let { dialogBuilder.content(it) }
 
                 // add permissions
-                for (permission in permissionGroup.permissions) {
-                    if (permission.granted()) continue // ignore granted permissions
-                    dialogBuilder.addItem(PermissionListItem(permission))
-                }
+                permissionGroup.permissions
+                    .filterNot { it.granted() }
+                    .map { PermissionListItem(it) }
+                    .forEach { dialogBuilder.addItem(it) }
 
                 // pass the result to our observer
                 // pass errors to our observer
@@ -70,7 +68,7 @@ internal class PermissionGroupRequest private constructor(
                     .map { it.model }
                     .flatMapSingleElement { permission ->
                         // now we need to request the permission
-                        rxActivityResult
+                        RxActivityResult(activity)
                             .start(permission.intent)
                             .toSingle()
                             .flatMap { request() }
@@ -113,19 +111,6 @@ internal class PermissionGroupRequest private constructor(
             val icon = itemView.findViewById<ImageView>(R.id.permission_icon)
             val title: TextView = itemView.findViewById<TextView>(R.id.permission_title)
             val desc: TextView = itemView.findViewById<TextView>(R.id.permission_desc)
-        }
-    }
-
-    companion object {
-
-        fun create(
-            activity: Activity,
-            permissionGroup: PermissionGroup
-        ): Single<Boolean> {
-            return PermissionGroupRequest(
-                activity, RxActivityResult(activity),
-                permissionGroup
-            ).request()
         }
     }
 }
