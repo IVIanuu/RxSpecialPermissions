@@ -57,8 +57,8 @@ object RxSpecialPermissions {
 
         class Builder (private val context: Context) {
 
-            private var positiveText = context.getString(R.string.default_positive_text)
-            private var negativeText = context.getString(R.string.default_negative_text)
+            private var positiveText = context.getString(android.R.string.ok)
+            private var negativeText = context.getString(android.R.string.cancel)
             
             fun positiveText(@StringRes positiveTextRes: Int): Builder {
                 return positiveText(context.getString(positiveTextRes))

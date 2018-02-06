@@ -31,13 +31,11 @@ buildscript {
         supportVersion = '27.0.2'
         supportAppCompat = "com.android.support:appcompat-v7:$supportVersion"
 
-        materialDialogs = 'com.afollestad.material-dialogs:core:0.9.4.5'
-
-        rxActivityResult = 'com.github.IVIanuu:RxActivityResult:447ee78e97'
+        rxActivityResult = 'com.github.IVIanuu:RxActivityResult:2846804e70'
 
         rxJava = 'io.reactivex.rxjava2:rxjava:2.1.8'
 
-        rxMaterialDialogs = 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs:1c470fc4f0'
+        rxMaterialDialogs = 'com.github.IVIanuu.RxMaterialDialogs:rxmaterialdialogs:047333d76d'
     }
     
     repositories {
