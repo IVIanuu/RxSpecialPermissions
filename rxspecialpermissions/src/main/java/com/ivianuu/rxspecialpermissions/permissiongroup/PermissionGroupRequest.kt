@@ -66,7 +66,7 @@ internal class PermissionGroupRequest constructor(
                     .map { it.model }
                     .flatMapSingleElement { permission ->
                         // now we need to request the permission
-                        RxActivityResult(activity)
+                        RxActivityResult.get(activity)
                             .start(permission.intent)
                             .toSingle()
                             .flatMap { request() }

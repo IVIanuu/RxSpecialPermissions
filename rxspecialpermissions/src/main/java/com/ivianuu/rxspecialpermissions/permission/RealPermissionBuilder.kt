@@ -53,7 +53,7 @@ class RealPermissionBuilder constructor(context: Context,
     }
 
     fun icon(@DrawableRes iconRes: Int): RealPermissionBuilder {
-        return icon(ContextCompat.getDrawable(context, iconRes))
+        return icon(ContextCompat.getDrawable(context, iconRes)!!)
     }
 
     fun icon(icon: Drawable): RealPermissionBuilder {

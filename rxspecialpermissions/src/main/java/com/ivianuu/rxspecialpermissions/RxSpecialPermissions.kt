@@ -36,8 +36,8 @@ object RxSpecialPermissions {
         var config = this.config
         if (config == null) { 
             config = Config.Builder(context)
-                .negativeText(R.string.default_negative_text)
-                .positiveText(R.string.default_positive_text)
+                .negativeText(android.R.string.ok)
+                .positiveText(android.R.string.cancel)
                 .build()
             this.config = config
         }

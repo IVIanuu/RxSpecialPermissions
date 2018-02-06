@@ -56,7 +56,7 @@ internal class SinglePermissionRequest constructor(
                         Single.just(false)
                     } else {
                         // request the permission
-                        RxActivityResult(activity)
+                        RxActivityResult.get(activity)
                             .start(permission.intent)
                             .map{ permission.granted() }
                             .defaultIfEmpty(false)

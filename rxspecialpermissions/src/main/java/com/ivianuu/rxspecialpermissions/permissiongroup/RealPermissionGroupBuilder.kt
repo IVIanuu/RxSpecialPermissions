@@ -57,7 +57,7 @@ class RealPermissionGroupBuilder internal constructor(private val context: Conte
     }
 
     fun icon(@DrawableRes iconRes: Int): RealPermissionGroupBuilder {
-        return icon(ContextCompat.getDrawable(context, iconRes))
+        return icon(ContextCompat.getDrawable(context, iconRes)!!)
     }
 
     fun addPermission(permission: Permission): RealPermissionGroupBuilder {
